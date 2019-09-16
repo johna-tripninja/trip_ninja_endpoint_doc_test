@@ -804,7 +804,7 @@ components:
                 user: "testing1"
                 user_email: "testing1@tripninja.io"
         path_sequnce:
-            description:
+            description: An array of IATA codes representing the chronological order of your trip.
             type: array
             example: [ "YHZ","NYC", "YTO", "YHZ" ]
 
