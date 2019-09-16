@@ -698,165 +698,113 @@ components:
       title: Request
       type: object
       required:
-          - flights
-          - travellers
-          - provider
-          - pcc
+          - trip_id
+          - selected_segments
+          - trip_type
           - currency
+          - markup
+          - pcc
+          - provider
+          - region
+          - total_price
+          - trip
+          - traveller_list
       properties:
-          flights:
-              description: "Array of flight legs input. A minimum of 3 legs (2
-    destinations) is required. The final destination may be
-    different than the initial starting point."
-              required: true
-              type: array
-              items:
-                type: object
-                required:
-                - id
-                - from_city
-                - start_type
-                - to_city
-                - end_type
-                - departure_date
-                properties:
-                    id:
-                        type: integer
-                        description: "Flight leg ID"
-                        example: 1
-                    from_city:
-                        type: string
-                        description: "Start city/airport IATA code of leg."
-                        example: "YHZ"
-                    start_type:
-                        type: string
-                        description: "Upper-case letter “C” for city or “A” for airport"
-                        example: C
-                    to_city:
-                        type: string
-                        description: "End city/airport IATA code of leg."
-                        example: "LON"
-                    end_type:
-                        type: string
-                        description: "Upper-case letter “C” for city or “A” for airport"
-                        example: C
-                    departure_date:
-                        type: string
-                        description: "Departure date for this leg, format: YYYY-MM-DD. Any trailing characters after do not affect the API’s functionality."
-                        example: "2019-06-20"
-          travellers:
-              description: "Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’"
-              required: true
-              type: array
-              example: ['ADT','ADT','CHD']
-          provider:
-              description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-              type: string
-              example: 1V
-          pcc:
-              description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-              required: true
-              type: string
-              example: 2G3C
-          max_cache:
-              default: 24
-              description: |
-                Hours to retain data queried from provider to be cached for use in future requests.
-                Higher values result in:<br  />
-                    1) faster queries as more data is available for re-use<br  />
-                    2) lower look-to-book ratios from the GDS perspective which may lower costs<br  />
-                    3) less accurate pricing data which may cause issues in AirPriceReq when ticketing.<br  />
-                Minimum value is 0.04 hours, maximum value is 720 hours.
-                Please discuss with your Trip Ninja Account Manager if you need
-                access to caching outside these limits.
-              required: false
-              type: integer
+        trip_id:
+            description: A unique key used for identification and when booking a trip.
+            required: true
+            type: string
+            example: "129a4045ef84edc4c0d5f0b1b28a906495d3f966"
+        selected_segments:
+            description:
+            required: true
+            type: array
+            example:
+        
+        trip_type:
+            description:
+            required: True
+            type: string
+            example: OneWay 
+        region:
+            description:
+            required: true  
+            type: string
+            example: americas
+        total_price:
+            description:
+            required: true 
+            type: float
+            example: 161.23
+        pcc:
+            description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
+            required: true
+            type: string
+            example: 2G3C
+        provider: 
+            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+            required: true 
+            type: string
+            example: 1V
+        traveller_list: 
+            description:
+            required: true 
+            type: array
+            example: ['ADT']
           currency:
               description: Currency to be used for provider query requests in three digit code.
               example: USD
               required: true
               type: string
-          cabin_class:
-              default: E
-              description: Parameter toggles the permitted cabin class for your query.
-              example: B
-              required: false
-              type: string
-          time_value:
-              default: 0
-              description: |
-                This parameter helps set the value of a passenger’s time, in
-                terms of the currency selected. It is used to trade off flight
-                prices versus flight durations. The parameter is in units of
-                [currency]/hour. Flight durations are calculated as the difference
-                in minutes from the arrival time of the last flight in a leg to
-                the departure time of the first flight in the leg.
+        markup: 
+            description:
+            required: true 
+            type: integer
+            example: 0
+        trip:
+            type: object
+            description: Contains the JSON object provided as the request
+            example:
+                alliance: ""
+                alpha: 0.1
+                cabin: "E"
+                cabin_class: "E"
+                credentials: {username: "WSNA50TA", password: "FDSFSGSGR", user_id: "testing", mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"}
+                currency: USD
+                depature_daate: "2019-09-30"
+                depaturedate: "2019-09-30"
+                end: "LON"
+                end_type: "C"
+                endpoint: Prod
+                errordetailsdict: {}
+                exclude_carriers: []
+                from_city: "NYC"
+                from_city_full: "New York, NY, USA - All Airports | NYC"
+                group: ""
+                id: "9f762d438b347085dc76fa09e020c1a6f716c303"
+                max_cache: 0.04
+                no_overnight_layovers: false
+                num_results: 50
+                permitted_carriers: []
+                prohibit_unbundled_fares: false
+                provider: "1V"
+                refundable: false
+                region: "americas"
+                schema: 40
+                source: "whitelabel.tripninja.io"
+                start: "NYC"
+                start_type: "C"
+                stops: "any"
+                time_value: 1
+                to_city: "LON"
+                to_city_full: "London, United Kingdom - All Airports | LON"
+                traveller_list: ["ADT"]
+                travellers: 1
+                travelport_itx: false
+                travelport_student: false
+                user: "testing1"
+                user_email: "testing1@tripninja.io" 
 
-                True Cost of Flight = [Flight Price] * [time_value/60] * [Flight Duration]
-
-                The itinerary which provides the lowest True Cost of Flight is
-                what is returned in the response. If you provide a time_value
-                of 0 or do not provide the parameter, it will sort by price.
-              required: false
-              type: integer
-          alliance:
-              description: Parameter toggles the preferred alliance for your query. If there are results containing flights from the given alliance, only flights from that alliance will be returned. Otherwise it will return flights from any alliance. *Travelport Only*
-              required: false
-              type: string
-              example: "*A"
-          schema:
-              default: 40
-              description: Toggles which Travelport schema version to use. *Travelport Only*
-              required: false
-              type: integer
-          exclude_carriers:
-              description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
-              required: false
-              type: array
-              example: []
-              items:
-                  type: string
-          permitted_carrier:
-              description: Toggles permitted carriers in GDS request *Travelport Only*
-              required: false
-              type: string
-              example: AC
-          no_overnight_layovers:
-              description: Toggles whether to return results with no overnight layovers *Travelport Only*
-              type: boolean
-              default: false
-          stops:
-              description: Toggles number of stop for GDS request *Travelport Only*
-              default: "Any"
-              type: string
-          baggage:
-              description: Toggles minimum number of bags included with flights for GDS request *Travelport Only*
-              default: "Any"
-              type: string
-          refundable:
-              description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
-              default: false
-              type: boolean
-          region:
-              description: Parameter toggles which travelport endpoint you hit *Travelport Only*
-              default: "americas"
-              type: string
-          num_results:
-              description: Parameter sets the number of segments in the response *Travelport Only*
-              default: 50
-              type: integer
-          include_lcc:
-              description: Enable a hybrid search of both GDS and low cost carrier content. This requires prior setup with Trip Ninja and an agreement with an LCC provider.
-              default: []
-              required: false
-              type: array
-              example: ['tripstack']
-              items:
-                type: string
-          include_itineraries:
-              description: Enables itineraries to be constructed and returned from segments found for the requested trip.
-              default: false
-              type: boolean
 
     FlexTripRequest:
         title: Request
