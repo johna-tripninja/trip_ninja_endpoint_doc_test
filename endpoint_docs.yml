@@ -720,7 +720,6 @@ components:
             required: true
             type: array
             example:
-        
         trip_type:
             description:
             required: True
@@ -751,11 +750,11 @@ components:
             required: true 
             type: array
             example: ['ADT']
-          currency:
-              description: Currency to be used for provider query requests in three digit code.
-              example: USD
-              required: true
-              type: string
+        currency:
+            description: Currency to be used for provider query requests in three digit code.
+            example: USD
+            required: true
+            type: string
         markup: 
             description:
             required: true 
