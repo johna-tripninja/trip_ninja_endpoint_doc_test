@@ -782,7 +782,7 @@ components:
             description:
             required: true 
             type: array
-            example: [{Test: 'ADT'}]
+            example: [{Tst: 'ADT'}]
         currency:
             description: Currency to be used for provider query requests in three digit code.
             example: USD
