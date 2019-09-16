@@ -802,7 +802,11 @@ components:
                 travelport_itx: false
                 travelport_student: false
                 user: "testing1"
-                user_email: "testing1@tripninja.io" 
+                user_email: "testing1@tripninja.io"
+        path_sequnce:
+            description:
+            type: array
+            example: [ "YHZ","NYC", "YTO", "YHZ" ]
 
 
     FlexTripRequest:
