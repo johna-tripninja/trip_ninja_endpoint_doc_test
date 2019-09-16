@@ -204,10 +204,22 @@ components:
       type: object
 
       properties:
-        trip_id:
+        total_price:
+            description: Total price of cheapest segments recommended, in currency specified.
+            type: float
+            example: 161.23
+        error_details:
+            description:
+            type: array
+            example: []
+        taxes:
+            type: float
+            description: Tax price of the segment
+            example: 79.23
+        confirmation_id:
             type: string
-            description: A unique key used for identification and when booking a trip.
-            example: "129a4045ef84edc4c0d5f0b1b28a906495d3f966"
+            description:
+            example: "5675057ca2cd084edbd498f960b9a202cb530202"
         trip:
           type: object
           description: Contains the JSON object provided as the request
@@ -720,18 +732,39 @@ components:
             required: true
             type: array
             example:
+                [{
+                    base_price: 119
+                    cabin_class: "Economy"
+                    fare_basis_code: "LCVF4BLS"
+                    fare_info_ref: "ydLNt04R2BKAASPJBAAAAA=="
+                    fare_rule_key: "gws-eJxNj8EOAiEMRD+GzL3FroYbuKvxQLis0bAH//8zHLoandKGZtoXyDlH0SRJj/lfAa/wXDGXBWiIzH7boNNJBMquQSjU+XG1c10xIKpqbv1C0X2Qo35YOqMNfWrvG42dTF8RcLAoZcwOhIn5Orwry91JNt6R0hd+qVyknCg28cofvAEIMi87"
+                    fees: 0
+                    markup: 0
+                    passenger_type: "ADT"
+                    plating_carrier: "WS"
+                    price: 0
+                    price_with_markup: 0
+                    private_fare: false
+                    segment_id: "82589a71c838a850c2ce364cee3190c60a0fe43a"
+                    segment_source: "travelport"
+                    taxes: 62.8
+                    transp_time: 206
+                    visible: true
+                    weight: 8
+                    weight_with_markup: 8
+                }]
         trip_type:
             description:
             required: True
             type: string
             example: OneWay 
         region:
-            description:
+            description: Parameter toggles which travelport endpoint you hit *Travelport Only*
             required: true  
             type: string
             example: americas
         total_price:
-            description:
+            description: Total price of cheapest segments recommended, in currency specified.
             required: true 
             type: float
             example: 161.23
