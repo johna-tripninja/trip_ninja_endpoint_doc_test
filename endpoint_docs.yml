@@ -225,15 +225,22 @@ components:
             properties:
                 currency: 
                     example: "USD"
-                endpoint: "preprod"
-                markup: 0
-                pcc: "2G3C"
-                provider: "1V"
-                region: "americas"
+                endpoint: 
+                    example: "preprod"
+                markup: 
+                    example: 0
+                pcc: 
+                    example: "2G3C"
+                provider: 
+                    example: "1V"
+                region: 
+                    example: "americas"
                 selected_segments: 
                     $ref: '#/components/schemas/selected_segments'
-                total_price: 127.53
-                traveller_list: ["ADT"]
+                total_price: 
+                    example: 127.53
+                traveller_list: 
+                    example: ["ADT"]
                 trip:
                     type: object
                     example:
@@ -283,8 +290,10 @@ components:
                         travelport_student: false
                         user: "testing1"
                         user_email: "testing1@tripninja.io"
-                trip_id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                trip_type: "OneWay"
+                trip_id: 
+                    example: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
+                trip_type: 
+                    example: "OneWay"
     
     Itineraries:
         allOf:
