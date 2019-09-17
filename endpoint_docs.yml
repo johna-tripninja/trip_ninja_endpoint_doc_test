@@ -223,7 +223,8 @@ components:
             type: object
             description: Contains the JSON object provided as the request
             properties:
-                currency: "USD"
+                currency: 
+                    example: "USD"
                 endpoint: "preprod"
                 markup: 0
                 pcc: "2G3C"
