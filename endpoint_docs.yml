@@ -77,7 +77,7 @@ paths:
                           schema:
                               $ref: '#/components/schemas/PriceConfirmResponse'
 
-    /cancel/:
+    /whitelabel- cancel/:
             post:
                 summary: "Cancel Booking Report"
                 description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
@@ -88,8 +88,8 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/CancelRequest'
                 responses:
-                    200:
-                        description: Success
+                    302:
+                        description: Found
                         content:
                             application/json:
                                 schema:
@@ -113,6 +113,67 @@ paths:
                                                         example: "2019-09-16T15:21:34.913+00:00"
                                                     LocatorCode: 
                                                         example: "TNTXR0"
+
+    /my-bookings/:
+            post:
+                summary: "Cancel Booking Report"
+                description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
+                operationId: "CancelBookingReport"
+                requestBody:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CancelRequest'
+                responses:
+                    302:
+                        description: Found
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        status:
+                                            type: string
+                                            example: "true"
+                                        response:
+                                            type: array
+                                            items: 
+                                                type: object
+                                                properties:
+                                                    ProviderCode: 
+                                                        example: "1V"
+                                                    Cancelled: 
+                                                        example: True
+                                                    CreatedDate: 
+                                                        example: "2019-09-16T12:14:03.151+00:00"
+                                                    ModifiedDate: 
+                                                        example: "2019-09-16T15:21:34.913+00:00"
+                                                    LocatorCode: 
+                                                        example: "TNTXR0"
+
+    /create-pnr/:
+        post:
+            summary: "Create a PNR"
+            description: "To create a PNR, report it to the Trip Ninja Service endpoint: “/create-pnr/”"
+            operationId: "CreatePNR"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatePNR'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                   result:
+                                          type: object
+                                          properties:
+                                                     locator: "6D6RMG"
+                                                     result: "True"
 
 
 
@@ -676,7 +737,60 @@ components:
             description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
             type: array
             example: [ "YHZ","NYC", "YTO", "YHZ" ]
+    TripSingle: 
+        allOf:
+          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
+          - type: object
+            description: ""
+            properties:
+                ErrorDetailsDict: {}
+                PCC: "2G3C"
+                alliance: ""
+                alpha: 0.1
+                cabin: "E"
+                cabin_class: "E"
+                credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
+                currency: "USD"
+                departure_date: "2019-10-09"
+                departuredate: "2019-10-09"
+                end: "NYC"
+                end_type: "C"
+                endpoint: "preprod"
+                exclude_carriers: []
+                from_city: "YHZ"
+                from_city_full: "Halifax, NS, Canada | YHZ"
+                group: ""
+                id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
+                max_cache: 0.04
+                no_overnight_layovers: false
+                num_results: 50
+                permitted_carriers: []
+                prohibit_unbundled_fares: false
+                provider: "1V"
+                refundable: false
+                region: "americas"
+                schema: 40
+                source: "whitelabel.tripninja.io"
+                start: "YHZ"
+                start_type: "A"
+                stops: "any"
+                time_value: 1
+                to_city: "NYC"
+                to_city_full: "New York, NY, USA - All Airports | NYC"
+                traveller_list: ["ADT"]
+                travellers: 1
+                travelport_itx: false
+                travelport_student: false
+                user: "testing1"
+                user_email: "testing1@tripninja.io"
+    TripDouble: 
+        allOf:
+          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
+          - type: object
+            description: ""
+            properties:
 
+            
     CancelRequest:
         title: Request
         type: object
@@ -692,4 +806,68 @@ components:
                 type: string
                 description: 
                 example: prepod
+    CreatePNR:
+        title: Request
+        type: object
+        required:
+            - queue
+            - currency_symbol
+            - trip
+            - customers
+            - billing
+            - info
+            - ticketed
+        properties:
+            queue:
+                type: string
+                description: 
+                example: "01"
+            currency_symbol:
+                type: string
+                description:
+                example: "&#36;"
+            trip:
+                type: object
+                description:
+                example:
+            customers:
+                description: ""
+                required: true
+                type: array
+                items:
+                type: object
+                properties:
+                    title:
+                        type: integer
+                        description: ""
+                        example: "Mr"
+                    first:
+                        type: string
+                        description: ""
+                        example: "Test"
+                    last:
+                        type: string
+                        description: ""
+                        example: C
+                    dob:
+                        type: string
+                        description: ""
+                        example: "LON"
+                    phone:
+                        type: string
+                        description: ""
+                        example: C
+                    country:
+                        type: string
+                        description: ""
+                        example: "2019-06-20"
+                    type:
+                        type: string
+                        description: ""
+                        example: "ADT"
+
+            
+
+             
+
 
