@@ -667,30 +667,8 @@ components:
             type: string
             example: "129a4045ef84edc4c0d5f0b1b28a906495d3f966"
         selected_segments:
-            description:
-            required: true
-            type: array
-            example:
-                base_price: 119
-                cabin_class: "Economy"
-                fare_basis_code: "LCVF4BLS"
-                fare_info_ref: "ydLNt04R2BKAASPJBAAAAA=="
-                fare_rule_key: "gws-eJxNj8EOAiEMRD+GzL3FroYbuKvxQLis0bAH//8zHLoandKGZtoXyDlH0SRJj/lfAa/wXDGXBWiIzH7boNNJBMquQSjU+XG1c10xIKpqbv1C0X2Qo35YOqMNfWrvG42dTF8RcLAoZcwOhIn5Orwry91JNt6R0hd+qVyknCg28cofvAEIMi87"
-                fees: 0
-                markup: 0
-                passenger_type: "ADT"
-                plating_carrier: "WS"
-                price: 0
-                price_with_markup: 0
-                private_fare: false
-                segment_id: "82589a71c838a850c2ce364cee3190c60a0fe43a"
-                segment_source: "travelport"
-                taxes: 62.8
-                transp_time: 206
-                visible: true
-                weight: 8
-                weight_with_markup: 8
-                
+            $ref: '#/components/schemas/selected_segments'
+
         trip_type:
             description:
             required: True
