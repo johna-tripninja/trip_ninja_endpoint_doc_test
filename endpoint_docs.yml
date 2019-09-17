@@ -103,11 +103,16 @@ paths:
                                             items: 
                                                 type: object
                                                 properties:
-                                                    ProviderCode: "1V"
-                                                    Cancelled: True
-                                                    CreatedDate: "2019-09-16T12:14:03.151+00:00"
-                                                    ModifiedDate: "2019-09-16T15:21:34.913+00:00"
-                                                    LocatorCode: "TNTXR0"
+                                                    ProviderCode: 
+                                                        example: "1V"
+                                                    Cancelled: 
+                                                        example: True
+                                                    CreatedDate: 
+                                                        example: "2019-09-16T12:14:03.151+00:00"
+                                                    ModifiedDate: 
+                                                        example: "2019-09-16T15:21:34.913+00:00"
+                                                    LocatorCode: 
+                                                        example: "TNTXR0"
 
 
 
@@ -682,5 +687,6 @@ components:
                 example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
             endpoint:
                 type: string
+                description: 
                 example: prepod
 
