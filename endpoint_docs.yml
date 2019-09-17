@@ -234,7 +234,7 @@ components:
                 traveller_list: ["ADT"]
                 trip:
                     type: object
-                    Properties:
+                    properties:
                         ErrorDetailsDict: {}
                         PCC: "2G3C"
                         alliance: ""
@@ -611,6 +611,7 @@ components:
                                             type: integer
                                             description: Flight duration in minutes
                                             example: 475
+    
     PriceConfirmRequest:
       title: Request
       type: object
