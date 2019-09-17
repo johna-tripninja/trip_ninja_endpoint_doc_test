@@ -205,24 +205,23 @@ components:
       properties:
         total_price:
             description: Total price of cheapest segments recommended, in currency specified.
-            type: float
+            type: number
             example: 161.23
         error_details:
-            description:
+            description: "TODO"
             type: array
             example: []
         taxes:
-            type: float
+            type: number
             description: Tax price of the segment
             example: 79.23
         confirmation_id:
             type: string
-            description:
+            description: "TODO"
             example: "5675057ca2cd084edbd498f960b9a202cb530202"
         trip:
-          type: object
-          description: Contains the JSON object provided as the request
-          properties:
+            type: object
+            description: Contains the JSON object provided as the request
             example:
                 currency: "USD"
                 endpoint: "preprod"
@@ -235,7 +234,7 @@ components:
                 traveller_list: ["ADT"]
                 trip:
                     type: object
-                    example:
+                    Properties:
                         ErrorDetailsDict: {}
                         PCC: "2G3C"
                         alliance: ""
@@ -671,7 +670,7 @@ components:
         total_price:
             description: Total price of cheapest segments recommended, in currency specified.
             required: true 
-            type: float
+            type: number
             example: 161.23
         pcc:
             description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
@@ -931,11 +930,11 @@ components:
             description: Contains the JSON object of the response.
             properties:
                 total_cost:
-                    type: float
+                    type: number
                     description: Total cost of cheapest segments recommended, in currency specified.
                     example: 693.6
                 tn_net_fare_markup:
-                    type: float
+                    type: number
                     description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
                     example: 0.0
                 structure:
