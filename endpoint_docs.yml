@@ -229,7 +229,8 @@ components:
                 pcc: "2G3C"
                 provider: "1V"
                 region: "americas"
-                selected_segments: ""
+                selected_segments: 
+                    $ref: '#/components/schemas/selected_segments'
                 total_price: 127.53
                 traveller_list: ["ADT"]
                 trip:
