@@ -974,7 +974,7 @@ components:
                     type: integer
                     description: Total transportation minutes for recommended cheapest segments.
                 selected_segments:
-                    $ref: '#/components/schemas/Segments'
+                    $ref: '#/components/schemas/selected_segments'
 
     ReportRequest:
         title: Request
