@@ -222,7 +222,7 @@ components:
         trip:
             type: object
             description: Contains the JSON object provided as the request
-            example:
+            properties:
                 currency: "USD"
                 endpoint: "preprod"
                 markup: 0
@@ -234,7 +234,7 @@ components:
                 traveller_list: ["ADT"]
                 trip:
                     type: object
-                    properties:
+                    example:
                         ErrorDetailsDict: {}
                         PCC: "2G3C"
                         alliance: ""
@@ -611,7 +611,6 @@ components:
                                             type: integer
                                             description: Flight duration in minutes
                                             example: 475
-    
     PriceConfirmRequest:
       title: Request
       type: object
