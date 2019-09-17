@@ -835,36 +835,36 @@ components:
                 required: true
                 type: array
                 items:
-                type: object
-                properties:
-                    title:
-                        type: integer
-                        description: ""
-                        example: "Mr"
-                    first:
-                        type: string
-                        description: ""
-                        example: "Test"
-                    last:
-                        type: string
-                        description: ""
-                        example: C
-                    dob:
-                        type: string
-                        description: ""
-                        example: "LON"
-                    phone:
-                        type: string
-                        description: ""
-                        example: C
-                    country:
-                        type: string
-                        description: ""
-                        example: "2019-06-20"
-                    type:
-                        type: string
-                        description: ""
-                        example: "ADT"
+                    type: object
+                    properties:
+                        title:
+                            type: integer
+                            description: ""
+                            example: "Mr"
+                        first:
+                            type: string
+                            description: ""
+                            example: "Test"
+                        last:
+                            type: string
+                            description: ""
+                            example: C
+                        dob:
+                            type: string
+                            description: ""
+                            example: "LON"
+                        phone:
+                            type: string
+                            description: ""
+                            example: C
+                        country:
+                            type: string
+                            description: ""
+                            example: "2019-06-20"
+                        type:
+                            type: string
+                            description: ""
+                            example: "ADT"
 
             
 
