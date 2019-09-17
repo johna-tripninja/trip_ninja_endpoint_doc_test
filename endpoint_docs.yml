@@ -202,7 +202,6 @@ components:
     PriceConfirmResponse:
       title: Response
       type: object
-
       properties:
         total_price:
             description: Total price of cheapest segments recommended, in currency specified.
