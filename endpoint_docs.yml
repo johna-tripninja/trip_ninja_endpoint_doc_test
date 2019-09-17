@@ -205,14 +205,14 @@ components:
       properties:
         total_price:
             description: Total price of cheapest segments recommended, in currency specified.
-            type: number
+            type: float
             example: 161.23
         error_details:
             description: "TODO"
             type: array
             example: []
         taxes:
-            type: number
+            type: float
             description: Tax price of the segment
             example: 79.23
         confirmation_id:
@@ -329,7 +329,7 @@ components:
                     type: integer
                     description: Total transportation time for the itinerary
                     example: 425
-                segments:
+                selected_segments:
                     type: array
                     description: List of segments in the itinerary
                     items:
@@ -390,7 +390,7 @@ components:
                             legs:
                                 type: array
                                 description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time. Contains same objects as leg_details below.
-    Segments:
+    selected_segments:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
           - type: object
@@ -411,6 +411,10 @@ components:
                     type: float
                     description: Weight of the segment (time-value considered).
                     example: 96.9
+                weight_with_markup:
+                    type: integer
+                    description: ""
+                    example: 1
                 price:
                     type: float
                     description: Price of the segment (fare and tax included).
@@ -458,6 +462,22 @@ components:
                 segment_source:
                     type: string
                     description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
+                flight_details:
+                    example:
+                        WS3485: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null, origin_terminal: null}
+                        markup: 0
+                        passenger_type: "ADT"
+                        plating_carrier: "WS"
+                        price: 0
+                        price_with_markup: 0
+                        private_fare: false
+                        segment_id: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
+                        segment_source: "travelport"
+                        taxes: 75.53
+                        transp_time: 425
+                        visible: true
+                        weight: 1
+                        weight_with_markup: 1
                 Group0:
                     type: object
                     description: One-way segment or first part of open-jaw segment
@@ -670,7 +690,7 @@ components:
         total_price:
             description: Total price of cheapest segments recommended, in currency specified.
             required: true 
-            type: number
+            type: float
             example: 161.23
         pcc:
             description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
@@ -930,11 +950,11 @@ components:
             description: Contains the JSON object of the response.
             properties:
                 total_cost:
-                    type: number
+                    type: float
                     description: Total cost of cheapest segments recommended, in currency specified.
                     example: 693.6
                 tn_net_fare_markup:
-                    type: number
+                    type: float
                     description: Markup specified by the Trip Ninja Net Fare to be applied at the itinerary level.
                     example: 0.0
                 structure:
@@ -953,7 +973,7 @@ components:
                 total_transportation_minutes:
                     type: integer
                     description: Total transportation minutes for recommended cheapest segments.
-                segments:
+                selected_segments:
                     $ref: '#/components/schemas/Segments'
 
     ReportRequest:
