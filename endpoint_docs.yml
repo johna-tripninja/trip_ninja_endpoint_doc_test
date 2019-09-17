@@ -406,7 +406,7 @@ components:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
             type: array
             items:
-            -   type: object
+                type: object
                 description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
                 properties:
                     additional_details:
