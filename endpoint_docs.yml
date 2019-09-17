@@ -222,67 +222,69 @@ components:
         trip:
           type: object
           description: Contains the JSON object provided as the request
-          example:
-            currency: "USD"
-            endpoint: "preprod"
-            markup: 0
-            pcc: "2G3C"
-            provider: "1V"
-            region: "americas"
-            selected_segments: ""
-            total_price: 127.53
-            traveller_list: ["ADT"]
-            trip:
-                type: object
-                example:
-                    ErrorDetailsDict: {}
-                    PCC: "2G3C"
-                    alliance: ""
-                    alpha: 0.1
-                    cabin: "E"
-                    cabin_class: "E"
-                    credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
-                    mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"
-                    password: "S1stH"
-                    tripstack: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
-                    user_id: "testing1"
-                    username: "WSNA5OTA"
-                    currency: "USD"
-                    departure_date: "2019-10-09"
-                    departuredate: "2019-10-09"
-                    end: "NYC"
-                    end_type: "C"
-                    endpoint: "preprod"
-                    exclude_carriers: []
-                    from_city: "YHZ"
-                    from_city_full: "Halifax, NS, Canada | YHZ"
-                    group: ""
-                    id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                    max_cache: 0.04
-                    no_overnight_layovers: false
-                    num_results: 50
-                    permitted_carriers: []
-                    prohibit_unbundled_fares: false
-                    provider: "1V"
-                    refundable: false
-                    region: "americas"
-                    schema: 40
-                    source: "whitelabel.tripninja.io"
-                    start: "YHZ"
-                    start_type: "A"
-                    stops: "any"
-                    time_value: 1
-                    to_city: "NYC"
-                    to_city_full: "New York, NY, USA - All Airports | NYC"
-                    traveller_list: ["ADT"]
-                    0: "ADT"
-                    travellers: 1
-                    travelport_itx: false
-                    travelport_student: false
-                    user: "testing1"
-                    user_email: "testing1@tripninja.io"
-            trip_id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-            trip_type: "OneWay"
+          properties:
+            example:
+                currency: "USD"
+                endpoint: "preprod"
+                markup: 0
+                pcc: "2G3C"
+                provider: "1V"
+                region: "americas"
+                selected_segments: ""
+                total_price: 127.53
+                traveller_list: ["ADT"]
+                trip:
+                    type: object
+                    example:
+                        ErrorDetailsDict: {}
+                        PCC: "2G3C"
+                        alliance: ""
+                        alpha: 0.1
+                        cabin: "E"
+                        cabin_class: "E"
+                        credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
+                        mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"
+                        password: "S1stH"
+                        tripstack: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
+                        user_id: "testing1"
+                        username: "WSNA5OTA"
+                        currency: "USD"
+                        departure_date: "2019-10-09"
+                        departuredate: "2019-10-09"
+                        end: "NYC"
+                        end_type: "C"
+                        endpoint: "preprod"
+                        exclude_carriers: []
+                        from_city: "YHZ"
+                        from_city_full: "Halifax, NS, Canada | YHZ"
+                        group: ""
+                        id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
+                        max_cache: 0.04
+                        no_overnight_layovers: false
+                        num_results: 50
+                        permitted_carriers: []
+                        prohibit_unbundled_fares: false
+                        provider: "1V"
+                        refundable: false
+                        region: "americas"
+                        schema: 40
+                        source: "whitelabel.tripninja.io"
+                        start: "YHZ"
+                        start_type: "A"
+                        stops: "any"
+                        time_value: 1
+                        to_city: "NYC"
+                        to_city_full: "New York, NY, USA - All Airports | NYC"
+                        traveller_list: ["ADT"]
+                        0: "ADT"
+                        travellers: 1
+                        travelport_itx: false
+                        travelport_student: false
+                        user: "testing1"
+                        user_email: "testing1@tripninja.io"
+                trip_id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
+                trip_type: "OneWay"
+    
     Itineraries:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
