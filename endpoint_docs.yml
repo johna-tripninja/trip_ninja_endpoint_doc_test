@@ -404,244 +404,247 @@ components:
     selected_segments:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
-          - type: object
-            description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
-            properties:
-                additional_details:
-                    type: object
-                    description: Additional details *in development for Travelport customers*
-                baggage:
-                    type: object
-                    description: Contains baggage information *Travelport customers only*
-                    properties:
-                        number_of_pieces:
-                            type: integer
-                            description: Number of bags allowed.
-                            example: 0
-                weight:
-                    type: float
-                    description: Weight of the segment (time-value considered).
-                    example: 96.9
-                weight_with_markup:
-                    type: integer
-                    description: ""
-                    example: 1
-                price:
-                    type: float
-                    description: Price of the segment (fare and tax included).
-                    example: 89.4
-                base_price:
-                    type: float
-                    description: Base price of the segment (tax excluded)
-                    example: 55.0
-                taxes:
-                    type: float
-                    description: Tax price of the segment
-                    example: 34.4
-                fees:
-                    type: float
-                    description: Fees for the segment *Travelport customers only*
-                    example: 0
-                cabin_class:
-                    type: string
-                    description: Cabin class for the entire segment *Travelport customers only*
-                    example: Economy
-                fare_basis_code:
-                    type: string
-                    description: Fare Basis Code for the segment.
-                    example: "QUSDSI0E"
-                fare_rule_key:
-                    type: string
-                    description: Fare rule key for the segment
-                    example:   gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
-                fare_info_ref:
-                    type: string
-                    description: Fare Info reference for this segment
-                    example: 3RxQ6ylJ0BKAhQAbnbAAAA==
-                private_fare:
-                    type: boolean
-                    description: True if segment is a private fare, otherwise False *Travelport customers only*
-                    example: false
-                segment_id:
-                    type: string
-                    description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-                    example: "b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2"
-                transp_time:
-                    type: float
-                    description: Transportation time for the segment
-                    example: 75
-                segment_source:
-                    type: string
-                    description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
-                flight_details:
-                    example:
-                        WS3485: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
-                        markup: 0
-                        passenger_type: "ADT"
-                        plating_carrier: "WS"
-                        price: 0
-                        price_with_markup: 0
-                        private_fare: false
-                        segment_id: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
-                        segment_source: "travelport"
-                        taxes: 75.53
-                        transp_time: 425
-                        visible: true
-                        weight: 1
-                        weight_with_markup: 1
-                Group0:
-                    type: object
-                    description: One-way segment or first part of open-jaw segment
-                    properties:
-                        segment_origin_full:
-                            type: string
-                            description: "Origin of the segment."
-                            example: "London, United Kingdom"
-                        segment_destination_full:
-                            type: string
-                            description: "Destination of the segment."
-                            example: "Paris, France"
-                        key:
-                            type: string
-                            description: Segment_id for the group
-                            example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
-                        segment_details:
-                            type: object
-                            description: Contains information about the segment legs, and total travel time
-                            properties:
-                                segment_time_w_connections:
-                                    type: float
-                                    description: segment travel time accounting for time between flights
-                                    example: 75.0
-                                leg_details:
-                                    type: object
-                                    description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
-                                    properties:
-                                        Origin:
-                                            type: string
-                                            description: IATA code of the leg origin
-                                            example: LHR
-                                        DepartureTime:
-                                            type: string
-                                            description: Departure time of the leg
-                                            example: "2019-04-05T13:25:00.000+01:00"
-                                        Destination:
-                                            type: string
-                                            description: IATA code of the leg destination
-                                            example: CDG
-                                        FlightNumber:
-                                            type: string
-                                            description: Leg's flight number
-                                            example: 111
-                                        DestinationName:
-                                            type: string
-                                            description: Full name of the leg destination
-                                            example: "Paris, France (CDG)"
-                                        BookingCode:
-                                            type: string
-                                            description: The airline booking code that describes the flight cabin class
-                                            example: X
-                                        cabin_class:
-                                            type: string
-                                            description: Leg’s cabin class *Travelport customers only*
-                                            example: Economy
-                                        Carrier:
-                                            type: string
-                                            description: Leg's carrier code
-                                            example: BA
-                                        Key:
-                                            type: string
-                                            description: Leg’s string identifier
-                                            example: "oHzo6pBAAA/B1d6hPLAAAA=="
-                                        ArrivalTime:
-                                            type: string
-                                            description: Arrival time of the leg
-                                            example: "2019-04-05T15:40:00.000+02:00"
-                                        OriginName:
-                                            type: string
-                                            description: Full name of the leg origin
-                                            example: "London, United Kingdom (LHR)"
-                                        FlightTime:
-                                            type: integer
-                                            description: Flight duration in minutes
-                                            example: 75
-                Group1:
-                    type: object
-                    description: |
-                        Second part of open-jaw segment
-                    properties:
-                        segment_origin_full:
-                            type: string
-                            description: "Origin of the segment."
-                            example: "Paris, France"
-                        segment_destination_full:
-                            type: string
-                            description: "Destination of the segment."
-                            example: "Montreal, Canada"
-                        key:
-                            type: string
-                            description: Segment_id for the group
-                            example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
-                        segment_details:
-                            type: object
-                            description: Contains information about the segment legs, and total travel time
-                            properties:
-                                segment_time_w_connections:
-                                    type: float
-                                    description: segment travel time accounting for time between flights
-                                    example: 1730.0
-                                leg_details:
-                                    type: object
-                                    description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
-                                    properties:
-                                        Origin:
-                                            type: string
-                                            description: IATA code of the leg origin
-                                            example: CDG
-                                        DepartureTime:
-                                            type: string
-                                            description: Departure time of the leg
-                                            example: "2019-04-07T13:15:00.000+02:00"
-                                        Destination:
-                                            type: string
-                                            description: IATA code of the leg destination
-                                            example: YUL
-                                        FlightNumber:
-                                            type: string
-                                            description: Leg's flight number
-                                            example: 475
-                                        DestinationName:
-                                            type: string
-                                            description: Full name of the leg destination
-                                            example: "Montreal, PQ, Canada (YUL)"
-                                        BookingCode:
-                                            type: string
-                                            description: The airline booking code that describes the flight cabin class
-                                            example: X
-                                        cabin_class:
-                                            type: string
-                                            description: Leg’s cabin class *Travelport customers only*
-                                            example: Economy
-                                        Carrier:
-                                            type: string
-                                            description: Leg's carrier code
-                                            example: TS
-                                        Key:
-                                            type: string
-                                            description: Leg’s string identifier
-                                            example: "oHzo6pBAAA/B1d6hPLAAAA=="
-                                        ArrivalTime:
-                                            type: string
-                                            description: Arrival time of the leg
-                                            example: "2019-04-07T15:10:00.000-04:00"
-                                        OriginName:
-                                            type: string
-                                            description: Full name of the leg origin
-                                            example: "Paris, France (CDG)"
-                                        FlightTime:
-                                            type: integer
-                                            description: Flight duration in minutes
-                                            example: 475
+            type: array
+            items:
+            -   type: object
+                description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
+                properties:
+                    additional_details:
+                        type: object
+                        description: Additional details *in development for Travelport customers*
+                    baggage:
+                        type: object
+                        description: Contains baggage information *Travelport customers only*
+                        properties:
+                            number_of_pieces:
+                                type: integer
+                                description: Number of bags allowed.
+                                example: 0
+                    weight:
+                        type: float
+                        description: Weight of the segment (time-value considered).
+                        example: 96.9
+                    weight_with_markup:
+                        type: integer
+                        description: ""
+                        example: 1
+                    price:
+                        type: float
+                        description: Price of the segment (fare and tax included).
+                        example: 89.4
+                    base_price:
+                        type: float
+                        description: Base price of the segment (tax excluded)
+                        example: 55.0
+                    taxes:
+                        type: float
+                        description: Tax price of the segment
+                        example: 34.4
+                    fees:
+                        type: float
+                        description: Fees for the segment *Travelport customers only*
+                        example: 0
+                    cabin_class:
+                        type: string
+                        description: Cabin class for the entire segment *Travelport customers only*
+                        example: Economy
+                    fare_basis_code:
+                        type: string
+                        description: Fare Basis Code for the segment.
+                        example: "QUSDSI0E"
+                    fare_rule_key:
+                        type: string
+                        description: Fare rule key for the segment
+                        example:   gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
+                    fare_info_ref:
+                        type: string
+                        description: Fare Info reference for this segment
+                        example: 3RxQ6ylJ0BKAhQAbnbAAAA==
+                    private_fare:
+                        type: boolean
+                        description: True if segment is a private fare, otherwise False *Travelport customers only*
+                        example: false
+                    segment_id:
+                        type: string
+                        description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
+                        example: "b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2"
+                    transp_time:
+                        type: float
+                        description: Transportation time for the segment
+                        example: 75
+                    segment_source:
+                        type: string
+                        description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
+                    flight_details:
+                        example:
+                            WS3485: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
+                            markup: 0
+                            passenger_type: "ADT"
+                            plating_carrier: "WS"
+                            price: 0
+                            price_with_markup: 0
+                            private_fare: false
+                            segment_id: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
+                            segment_source: "travelport"
+                            taxes: 75.53
+                            transp_time: 425
+                            visible: true
+                            weight: 1
+                            weight_with_markup: 1
+                    Group0:
+                        type: object
+                        description: One-way segment or first part of open-jaw segment
+                        properties:
+                            segment_origin_full:
+                                type: string
+                                description: "Origin of the segment."
+                                example: "London, United Kingdom"
+                            segment_destination_full:
+                                type: string
+                                description: "Destination of the segment."
+                                example: "Paris, France"
+                            key:
+                                type: string
+                                description: Segment_id for the group
+                                example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
+                            segment_details:
+                                type: object
+                                description: Contains information about the segment legs, and total travel time
+                                properties:
+                                    segment_time_w_connections:
+                                        type: float
+                                        description: segment travel time accounting for time between flights
+                                        example: 75.0
+                                    leg_details:
+                                        type: object
+                                        description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
+                                        properties:
+                                            Origin:
+                                                type: string
+                                                description: IATA code of the leg origin
+                                                example: LHR
+                                            DepartureTime:
+                                                type: string
+                                                description: Departure time of the leg
+                                                example: "2019-04-05T13:25:00.000+01:00"
+                                            Destination:
+                                                type: string
+                                                description: IATA code of the leg destination
+                                                example: CDG
+                                            FlightNumber:
+                                                type: string
+                                                description: Leg's flight number
+                                                example: 111
+                                            DestinationName:
+                                                type: string
+                                                description: Full name of the leg destination
+                                                example: "Paris, France (CDG)"
+                                            BookingCode:
+                                                type: string
+                                                description: The airline booking code that describes the flight cabin class
+                                                example: X
+                                            cabin_class:
+                                                type: string
+                                                description: Leg’s cabin class *Travelport customers only*
+                                                example: Economy
+                                            Carrier:
+                                                type: string
+                                                description: Leg's carrier code
+                                                example: BA
+                                            Key:
+                                                type: string
+                                                description: Leg’s string identifier
+                                                example: "oHzo6pBAAA/B1d6hPLAAAA=="
+                                            ArrivalTime:
+                                                type: string
+                                                description: Arrival time of the leg
+                                                example: "2019-04-05T15:40:00.000+02:00"
+                                            OriginName:
+                                                type: string
+                                                description: Full name of the leg origin
+                                                example: "London, United Kingdom (LHR)"
+                                            FlightTime:
+                                                type: integer
+                                                description: Flight duration in minutes
+                                                example: 75
+                    Group1:
+                        type: object
+                        description: |
+                            Second part of open-jaw segment
+                        properties:
+                            segment_origin_full:
+                                type: string
+                                description: "Origin of the segment."
+                                example: "Paris, France"
+                            segment_destination_full:
+                                type: string
+                                description: "Destination of the segment."
+                                example: "Montreal, Canada"
+                            key:
+                                type: string
+                                description: Segment_id for the group
+                                example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
+                            segment_details:
+                                type: object
+                                description: Contains information about the segment legs, and total travel time
+                                properties:
+                                    segment_time_w_connections:
+                                        type: float
+                                        description: segment travel time accounting for time between flights
+                                        example: 1730.0
+                                    leg_details:
+                                        type: object
+                                        description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
+                                        properties:
+                                            Origin:
+                                                type: string
+                                                description: IATA code of the leg origin
+                                                example: CDG
+                                            DepartureTime:
+                                                type: string
+                                                description: Departure time of the leg
+                                                example: "2019-04-07T13:15:00.000+02:00"
+                                            Destination:
+                                                type: string
+                                                description: IATA code of the leg destination
+                                                example: YUL
+                                            FlightNumber:
+                                                type: string
+                                                description: Leg's flight number
+                                                example: 475
+                                            DestinationName:
+                                                type: string
+                                                description: Full name of the leg destination
+                                                example: "Montreal, PQ, Canada (YUL)"
+                                            BookingCode:
+                                                type: string
+                                                description: The airline booking code that describes the flight cabin class
+                                                example: X
+                                            cabin_class:
+                                                type: string
+                                                description: Leg’s cabin class *Travelport customers only*
+                                                example: Economy
+                                            Carrier:
+                                                type: string
+                                                description: Leg's carrier code
+                                                example: TS
+                                            Key:
+                                                type: string
+                                                description: Leg’s string identifier
+                                                example: "oHzo6pBAAA/B1d6hPLAAAA=="
+                                            ArrivalTime:
+                                                type: string
+                                                description: Arrival time of the leg
+                                                example: "2019-04-07T15:10:00.000-04:00"
+                                            OriginName:
+                                                type: string
+                                                description: Full name of the leg origin
+                                                example: "Paris, France (CDG)"
+                                            FlightTime:
+                                                type: integer
+                                                description: Flight duration in minutes
+                                                example: 475
+        
     PriceConfirmRequest:
       title: Request
       type: object
