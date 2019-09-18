@@ -139,7 +139,7 @@ paths:
     /my-bookings/:
             post:
                 summary: "Ticketing Booking"
-                description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
+                description: "To ticket a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/my-bookings/”"
                 operationId: "TicketBooking"
                 requestBody:
                     content:
