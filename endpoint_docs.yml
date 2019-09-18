@@ -520,25 +520,31 @@ components:
                                 example: 0
                             private_fare: 
                                 type: boolean
+                                description: True if segment is a private fare, otherwise False *Travelport customers only*
                                 example: false
                             segment_id: 
                                 type: string
+                                description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
                                 example: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
                             segment_source: 
                                 type: string
+                                description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
                                 example: "travelport"
                             taxes:
                                 type: float
-                                example: 75.53
+                                description: Tax price of the segment
+                                example: 75.3
                             transp_time: 
                                 type: integer
+                                description: Transportation time for the segment
                                 example: 425
                             visible: 
                                 type: boolean
                                 example: true
                             weight: 
-                                type: integer
-                                example: 1
+                                type: float
+                                description: Weight of the segment (time-value considered).
+                                example: 239
                             weight_with_markup: 
                                 type: integer
                                 example: 1
@@ -827,6 +833,7 @@ components:
             example: "5675057ca2cd084edbd498f960b9a202cb530202"
         fees:
             type: float
+            description: Fees for the segment *Travelport customers only*
             example: 0 
         trip:
             type: object
