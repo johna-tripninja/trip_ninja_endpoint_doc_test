@@ -607,55 +607,6 @@ components:
             required: true 
             type: float
             example: 0
-        trip:
-            type: object
-            description: Contains the JSON object provided as the request
-            required: false
-            example:
-                alliance: ""
-                alpha: 0.1
-                cabin: "E"
-                cabin_class: "E"
-                credentials: {username: "WSNA50TA", password: "FDSFSGSGR", user_id: "testing", mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"}
-                currency: USD
-                depature_daate: "2019-09-30"
-                depaturedate: "2019-09-30"
-                end: "LON"
-                end_type: "C"
-                endpoint: Prod
-                errordetailsdict: {}
-                exclude_carriers: []
-                from_city: "NYC"
-                from_city_full: "New York, NY, USA - All Airports | NYC"
-                group: ""
-                id: "9f762d438b347085dc76fa09e020c1a6f716c303"
-                max_cache: 0.04
-                no_overnight_layovers: false
-                num_results: 50
-                permitted_carriers: []
-                prohibit_unbundled_fares: false
-                provider: "1V"
-                refundable: false
-                region: "americas"
-                schema: 40
-                source: "whitelabel.tripninja.io"
-                start: "NYC"
-                start_type: "C"
-                stops: "any"
-                time_value: 1
-                to_city: "LON"
-                to_city_full: "London, United Kingdom - All Airports | LON"
-                traveller_list: ["ADT"]
-                travellers: 1
-                travelport_itx: false
-                travelport_student: false
-                user: "testing1"
-                user_email: "testing1@tripninja.io"       
-        path_sequence:
-            description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
-            required: false
-            type: array
-            example: [ "YHZ","NYC", "YTO", "YHZ" ]
     CancelRequest:
         title: Request
         type: object
