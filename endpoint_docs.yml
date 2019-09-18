@@ -827,107 +827,6 @@ components:
             description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
             type: array
             example: [ "YHZ","NYC", "YTO", "YHZ" ]
-
-    PriceConfirmFareStructureResponse:
-      title: Response
-      type: object
-      properties:
-        total_price:
-            description: Total price of cheapest segments recommended, in currency specified.
-            type: float
-            example: 161.23
-        error_details:
-            description: "TODO"
-            type: array
-            example: []
-        taxes:
-            type: float
-            description: Tax price of the segment
-            example: 79.23
-        confirmation_id:
-            type: string
-            description: "TODO"
-            example: "5675057ca2cd084edbd498f960b9a202cb530202"
-        fees:
-            type: float
-            description: Fees for the segment *Travelport customers only*
-            example: 0 
-        trip:
-            type: object
-            description: Contains the JSON object provided as the request
-            properties:
-                currency: 
-                    example: "USD"
-                endpoint: 
-                    example: "preprod"
-                markup: 
-                    example: 0
-                pcc: 
-                    example: "2G3C"
-                provider: 
-                    example: "1V"
-                region: 
-                    example: "americas"
-                selected_segments: 
-                    $ref: '#/components/schemas/selected_segments'
-                total_price: 
-                    example: 127.53
-                traveller_list: 
-                    example: ["ADT"]
-                trip:
-                    type: object
-                    example:
-                        ErrorDetailsDict: {}
-                        PCC: "2G3C"
-                        alliance: ""
-                        alpha: 0.1
-                        cabin: "E"
-                        cabin_class: "E"
-                        credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
-                        mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"
-                        password: "S1stH"
-                        tripstack: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
-                        user_id: "testing1"
-                        username: "WSNA5OTA"
-                        currency: "USD"
-                        departure_date: "2019-10-09"
-                        departuredate: "2019-10-09"
-                        end: "NYC"
-                        end_type: "C"
-                        endpoint: "preprod"
-                        exclude_carriers: []
-                        from_city: "YHZ"
-                        from_city_full: "Halifax, NS, Canada | YHZ"
-                        group: ""
-                        id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                        max_cache: 0.04
-                        no_overnight_layovers: false
-                        num_results: 50
-                        permitted_carriers: []
-                        prohibit_unbundled_fares: false
-                        provider: "1V"
-                        refundable: false
-                        region: "americas"
-                        schema: 40
-                        source: "whitelabel.tripninja.io"
-                        start: "YHZ"
-                        start_type: "A"
-                        stops: "any"
-                        time_value: 1
-                        to_city: "NYC"
-                        to_city_full: "New York, NY, USA - All Airports | NYC"
-                        traveller_list: ["ADT"]
-                        0: "ADT"
-                        travellers: 1
-                        travelport_itx: false
-                        travelport_student: false
-                        user: "testing1"
-                        user_email: "testing1@tripninja.io"
-                trip_id: 
-                    example: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                trip_type: 
-                    example: "OneWay"
-    
     TripSingle: 
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
@@ -1261,16 +1160,6 @@ components:
                 type: boolean
                 description: "TODO"
                 example: true                       
-    TicketBooking:
-        title: Request
-        type: object
-        required:
-            - trip_id
-        properties:
-            trip_id:
-                type: string
-                description: Trip ID returned in search response
-                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
     BookingReport:
         title: Request
         type: object
