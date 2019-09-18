@@ -189,6 +189,26 @@ paths:
                                                         type: string
                                                         example: "True"
 
+    /booking/:
+        post:
+            summary: "Booking"
+            description: "Booking, report it to the Trip Ninja Service endpoint: “/booking/”"
+            operationId: "Booking"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Booking'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                   result:
+                                        
 
 
 components:
@@ -1259,6 +1279,144 @@ components:
     
 
     
+    Booking:
+        title: Request
+        type: object
+        required:
+            - queue
+            - currency_symbol
+            - trip
+            - customers
+            - billing
+            - info
+            - ticketed
+        properties:
+            booking:
+                type: object
+                properties:
+                    queue:
+                        type: string
+                        description: 
+                        example: "01"
+                    currency_symbol:
+                        type: string
+                        description:
+                        example: "&#36;"  
+                    customers:
+                        description: ""
+                        required: true
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                    description: ""
+                                    example: "Mr"
+                                first:
+                                    type: string
+                                    description: ""
+                                    example: "Test"
+                                last:
+                                    type: string
+                                    description: ""
+                                    example: C
+                                dob:
+                                    type: string
+                                    description: ""
+                                    example: "LON"
+                                phone:
+                                    type: string
+                                    description: ""
+                                    example: C
+                                country:
+                                    type: string
+                                    description: ""
+                                    example: "2019-06-20"
+                                type:
+                                    type: string
+                                    description: ""
+                                    example: "ADT"
+                    billing:
+                        type: object
+                        properties:
+                            air_transportation_charges:
+                                type: float
+                                example: 220
+                            currency:
+                                type: string 
+                                example: "USD"
+                                description: Currency to be used for provider query requests in three digit code.
+                            email:
+                                type: string
+                                example: anEmail@email.com
+                            email_confirm:
+                                type: string
+                                example: anEmail@email.com
+                    info:
+                        type: object
+                        properties:
+                            customers:
+                                description: ""
+                                required: true
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        title:
+                                            type: string
+                                            description: ""
+                                            example: "Mr"
+                                        first:
+                                            type: string
+                                            description: ""
+                                            example: "Test"
+                                        last:
+                                            type: string
+                                            description: ""
+                                            example: C
+                                        dob:
+                                            type: string
+                                            description: ""
+                                            example: "LON"
+                                        phone:
+                                            type: string
+                                            description: ""
+                                            example: C
+                                        country:
+                                            type: string
+                                            description: ""
+                                            example: "2019-06-20"
+                                        type:
+                                            type: string
+                                            description: ""
+                                            example: "ADT"
+                            billing:
+                                    type: object
+                                    properties:
+                                        air_transportation_charges:
+                                            type: float
+                                            example: 220
+                                        currency:
+                                            type: string 
+                                            example: "USD"
+                                            description: Currency to be used for provider query requests in three digit code.
+                                        email:
+                                            type: string
+                                            example: anEmail@email.com
+                                        email_confirm:
+                                            type: string
+                                            example: anEmail@email.com
+                    locator:
+                        type: string
+                        example: TUNSW5
+                    maps:
+                        type: string
+                        example: <h3> Your Destinations </h3>
+            locator:
+                type: string
+                example: TUNSW5
+                        
 
              
 
