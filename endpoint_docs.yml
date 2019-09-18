@@ -489,7 +489,7 @@ components:
                         description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
                     flight_details:
                         type: object
-                        example:
+                        properties:
                             WS3485: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
                             markup: 0
                             passenger_type: "ADT"
@@ -865,7 +865,6 @@ components:
                     example: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
                 trip_type: 
                     example: "OneWay"
-    
     
     TripSingle: 
         allOf:
