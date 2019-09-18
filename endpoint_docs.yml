@@ -66,100 +66,16 @@ paths:
                           schema:
                               $ref: '#/components/schemas/PriceConfirmResponse'
 
-    /whitelabel-cancel/:
-            post:
-                summary: "Cancel Booking"
-                description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
-                operationId: "CancelBooking"
-                requestBody:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/CancelRequest'
-                responses:
-                    302:
-                        description: Found
-                        content:
-                            application/json:
-                                schema:
-                                    type: object
-                                    properties:
-                                        status:
-                                            type: string
-                                            example: "true"
-                                        response:
-                                            type: array
-                                            items: 
-                                                type: object
-                                                properties:
-                                                    ProviderCode:
-                                                        type: string 
-                                                        example: "1V"
-                                                    Cancelled: 
-                                                        type: boolean
-                                                        example: True
-                                                    CreatedDate:
-                                                        type: string 
-                                                        example: "2019-09-16T12:14:03.151+00:00"
-                                                    ModifiedDate: 
-                                                        type: string
-                                                        example: "2019-09-16T15:21:34.913+00:00"
-                                                    LocatorCode: 
-                                                        type: string
-                                                        example: "TNTXR0"
-
-    /my-bookings/:
-            post:
-                summary: "Ticketing Booking"
-                description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
-                operationId: "TicketBooking"
-                requestBody:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/TicketBooking'
-                responses:
-                    302:
-                        description: Found
-                        content:
-                            application/json:
-                                schema:
-                                    type: object
-                                    properties:
-                                        status:
-                                            type: string
-                                            example: "true"
-                                        response:
-                                            type: array
-                                            items: 
-                                                type: object
-                                                properties:
-                                                    ProviderCode:
-                                                        type: string 
-                                                        example: "1V"
-                                                    Cancelled: 
-                                                        type: boolean
-                                                        example: True
-                                                    CreatedDate:
-                                                        type: string 
-                                                        example: "2019-09-16T12:14:03.151+00:00"
-                                                    ModifiedDate: 
-                                                        type: string
-                                                        example: "2019-09-16T15:21:34.913+00:00"
-                                                    LocatorCode: 
-                                                        type: string
-                                                        example: "TNTXR0"
-
     /create-pnr/:
         post:
-            summary: "Create a PNR"
-            description: "To create a PNR, report it to the Trip Ninja Service endpoint: “/create-pnr/”"
-            operationId: "CreatePNR"
+            summary: "Create Booking"
+            description: "To create a booking, report it to the Trip Ninja Service endpoint: “/create-pnr/”"
+            operationId: "CreateBooking"
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreatePNR'
+                            $ref: '#/components/schemas/CreateBooking'
             responses:
                 200:
                     description: Success
@@ -176,31 +92,49 @@ paths:
                                                         example: 6D6RMG
                                                      result: 
                                                         type: string
-                                                        example: "True"
+                                                        example: "True"                                
 
-    /booking/:
+    /whitelabel-cancel/:
         post:
-            summary: "Booking"
-            description: "Booking, report it to the Trip Ninja Service endpoint: “/booking/”"
-            operationId: "BookingReport"
+            summary: "Cancel Booking"
+            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
+            operationId: "CancelBooking"
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/BookingReport'
+                            $ref: '#/components/schemas/CancelRequest'
             responses:
-                200:
-                    description: Success
+                302:
+                    description: Found
                     content:
                         application/json:
                             schema:
                                 type: object
                                 properties:
-                                    result:
+                                    status:
                                         type: string
-                                        example: Test
-                                
-                                        
+                                        example: "true"
+                                    response:
+                                        type: array
+                                        items: 
+                                            type: object
+                                            properties:
+                                                ProviderCode:
+                                                    type: string 
+                                                    example: "1V"
+                                                Cancelled: 
+                                                    type: boolean
+                                                    example: True
+                                                CreatedDate:
+                                                    type: string 
+                                                    example: "2019-09-16T12:14:03.151+00:00"
+                                                ModifiedDate: 
+                                                    type: string
+                                                    example: "2019-09-16T15:21:34.913+00:00"
+                                                LocatorCode: 
+                                                    type: string
+                                                    example: "TNTXR0"
 
 
 components:
@@ -324,113 +258,6 @@ components:
                     type: string
                     description: 
                     example: "OneWay"
-    
-    Itineraries:
-        allOf:
-          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
-          - type: object
-            description: Array of itineraries sorted by weight.
-            properties:
-                weight:
-                    type: float
-                    description: Weight of the segment (time-value considered).
-                    example: 239
-                price:
-                    type: float
-                    description: Price of the segment (fare and tax included).
-                    example: 197.1
-                base_price:
-                    type: float
-                    description: Base price of the segment (tax excluded)
-                    example: 0
-                taxes:
-                    type: float
-                    description: Tax price of the segment
-                    example: 119.1
-                fees:
-                    type: float
-                    description: Fees for the segment *Travelport customers only*
-                    example: 0
-                cabin_class:
-                    type: string
-                    description: Cabin class for the entire segment *Travelport customers only*
-                    example: Economy
-                latest_ticketing_date:
-                    type: date
-                    description: Latest ticketing time
-                    example: "2019-05-07"
-                refundable:
-                    type: boolean
-                    description: Refundable tickets
-                    example: false
-                e_ticketability:
-                    type: boolean
-                    example: true
-                transp_time:
-                    type: integer
-                    description: Total transportation time for the itinerary
-                    example: 425
-                selected_segments:
-                    type: array
-                    description: List of segments in the itinerary
-                    items:
-                        type: object
-                        properties:
-                            segment_origin_full:
-                                type: string
-                                description: "Origin of the segment."
-                                example: "London, United Kingdom (LHR)"
-                            segment_destination_full:
-                                type: string
-                                description: "Destination of the segment."
-                                example: "Berlin, Germany (TXL)"
-                            weight:
-                                type: string
-                                description: Weight of the segment (time-value considered).
-                                example: 96
-                            segment_id:
-                                type: string
-                                description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-                                example: "344d73be0d61f820aa9a6ace300742fed0672f2e"
-                            price:
-                                type: float
-                                description: Price of the segment (fare and tax included)
-                                example: 72.3
-                            segment_source:
-                                type: string
-                                description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
-                                example: travelport
-                            cancel_penalty:
-                                type: object
-                                description: Information about cancellation
-                                properties:
-                                    amount:
-                                        type: float
-                                        description: Cancellation penalty amount
-                                        example: 0
-                                    percentage:
-                                        type: float
-                                        description: Cancellation penalty percentage
-                                        example: 100
-                            change_penalty:
-                                type: object
-                                description: Information about changing.
-                                properties:
-                                    amount:
-                                        type: float
-                                        description: Change penalty amount
-                                        example: 78
-                                    percentage:
-                                        type: float
-                                        description: Change penalty percentage
-                                        example: 0
-                            flight_type:
-                                type: string
-                                description: “open_jaw” or “one_way”
-                                example: "open_jaw"
-                            legs:
-                                type: array
-                                description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time. Contains same objects as leg_details below.
     selected_segments:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
@@ -827,60 +654,6 @@ components:
             description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
             type: array
             example: [ "YHZ","NYC", "YTO", "YHZ" ]
-    TripSingle: 
-        allOf:
-          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
-          - type: object
-            description: ""
-            properties:
-                ErrorDetailsDict: {}
-                PCC: "2G3C"
-                alliance: ""
-                alpha: 0.1
-                cabin: "E"
-                cabin_class: "E"
-                credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
-                currency: "USD"
-                departure_date: "2019-10-09"
-                departuredate: "2019-10-09"
-                end: "NYC"
-                end_type: "C"
-                endpoint: "preprod"
-                exclude_carriers: []
-                from_city: "YHZ"
-                from_city_full: "Halifax, NS, Canada | YHZ"
-                group: ""
-                id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                max_cache: 0.04
-                no_overnight_layovers: false
-                num_results: 50
-                permitted_carriers: []
-                prohibit_unbundled_fares: false
-                provider: "1V"
-                refundable: false
-                region: "americas"
-                schema: 40
-                source: "whitelabel.tripninja.io"
-                start: "YHZ"
-                start_type: "A"
-                stops: "any"
-                time_value: 1
-                to_city: "NYC"
-                to_city_full: "New York, NY, USA - All Airports | NYC"
-                traveller_list: ["ADT"]
-                travellers: 1
-                travelport_itx: false
-                travelport_student: false
-                user: "testing1"
-                user_email: "testing1@tripninja.io"
-    TripDouble: 
-        allOf:
-          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
-          - type: object
-            description: ""
-            properties:
-
-            
     CancelRequest:
         title: Request
         type: object
@@ -896,7 +669,7 @@ components:
                 type: string
                 description: 
                 example: prepod
-    CreatePNR:
+    CreateBooking:
         title: Request
         type: object
         required:
