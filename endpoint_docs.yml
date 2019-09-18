@@ -243,9 +243,9 @@ components:
                     description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
                 trip:
                     type: object
-                    example:
+                    properties:
                         ErrorDetailsDict: {}
-                        PCC: "2G3C"
+                        pcc: "2G3C"
                         alliance: ""
                         alpha: 0.1
                         cabin: "E"
