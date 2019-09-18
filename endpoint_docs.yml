@@ -123,7 +123,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CancelRequest'
+                                $ref: '#/components/schemas/TicketBookingReport'
                 responses:
                     302:
                         description: Found
@@ -388,6 +388,7 @@ components:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
           - type: array
+            description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
             required:
                 - segment_id
                 - plating_carrier
@@ -973,6 +974,23 @@ components:
                             description: ""
                             example: "ADT"
 
+
+    TicketBookingReport:
+        title: Request
+        type: object
+        required:
+            - trip_id
+            - endpoint
+        properties:
+            trip_id:
+                type: string
+                description: Trip ID returned in search response
+                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
+            endpoint:
+                type: string
+                description: 
+                example: prepod
+    
             
 
              
