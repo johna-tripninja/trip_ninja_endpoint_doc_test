@@ -669,7 +669,6 @@ components:
         type: object
         required:
             - queue
-            - currency_symbol
             - trip
             - customers
             - billing
@@ -680,10 +679,6 @@ components:
                 type: string
                 description: 
                 example: "01"
-            currency_symbol:
-                type: string
-                description:
-                example: "&#36;"
             trip:
                 type: object
                 description:
