@@ -189,7 +189,28 @@ paths:
                                                         type: string
                                                         example: "True"
 
-                  
+    /booking/:
+        post:
+            summary: "Booking"
+            description: "Booking, report it to the Trip Ninja Service endpoint: “/booking/”"
+            operationId: "BookingReport"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BookingReport'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    result:
+                                        type: string
+                                        example: Test
+                                
                                         
 
 
@@ -1258,7 +1279,7 @@ components:
                 type: string
                 description: Trip ID returned in search response
                 example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
-    Booking:
+    BookingReport:
         title: Request
         type: object
         required:
