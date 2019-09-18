@@ -1283,13 +1283,8 @@ components:
         title: Request
         type: object
         required:
-            - queue
-            - currency_symbol
-            - trip
-            - customers
-            - billing
-            - info
-            - ticketed
+            - booking
+            - locator
         properties:
             booking:
                 type: object
