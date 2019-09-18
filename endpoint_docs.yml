@@ -182,8 +182,12 @@ paths:
                                    result:
                                           type: object
                                           properties:
-                                                     locator: "6D6RMG"
-                                                     result: "True"
+                                                     locator: 
+                                                        type: string
+                                                        example: 6D6RMG
+                                                     result: 
+                                                        type: string
+                                                        example: "True"
 
 
 
