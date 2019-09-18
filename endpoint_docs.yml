@@ -200,7 +200,8 @@ components:
             description: "TODO"
             example: "5675057ca2cd084edbd498f960b9a202cb530202"
         fees:
-            type: integer
+            type: float
+            description: TODO
             example: 0 
         trip:
             type: object
@@ -221,11 +222,11 @@ components:
                 pcc: 
                     type: string
                     example: "2G3C"
-                    description:
+                    description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
                 provider: 
                     type: string
                     example: "1V"
-                    description:
+                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                 region: 
                     type: string
                     example: "americas"
@@ -436,7 +437,7 @@ components:
                         description: Weight of the segment (time-value considered).
                         example: 96.9
                     weight_with_markup:
-                        type: integer
+                        type: float
                         description: ""
                         example: 1
                     price:
@@ -715,7 +716,7 @@ components:
         markup: 
             description:
             required: true 
-            type: integer
+            type: float
             example: 0
         trip:
             type: object
@@ -786,7 +787,7 @@ components:
             description: "TODO"
             example: "5675057ca2cd084edbd498f960b9a202cb530202"
         fees:
-            type: integer
+            type: float
             example: 0 
         trip:
             type: object
@@ -966,7 +967,7 @@ components:
                     type: object
                     properties:
                         title:
-                            type: integer
+                            type: string
                             description: ""
                             example: "Mr"
                         first:
