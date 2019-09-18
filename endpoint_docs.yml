@@ -1268,7 +1268,10 @@ components:
                                 email_confirm:
                                     type: string
                                     example: anEmail@email.com
-
+            ticketed: 
+                type: boolean
+                description: "TODO"
+                example: true                       
     TicketBookingReport:
         title: Request
         type: object
