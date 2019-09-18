@@ -136,6 +136,48 @@ paths:
                                                     type: string
                                                     example: "TNTXR0"
 
+    /my-bookings/:
+            post:
+                summary: "Ticketing Booking"
+                description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
+                operationId: "TicketBooking"
+                requestBody:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TicketBooking'
+                responses:
+                    302:
+                        description: Found
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        status:
+                                            type: string
+                                            example: "true"
+                                        response:
+                                            type: array
+                                            items: 
+                                                type: object
+                                                properties:
+                                                    ProviderCode:
+                                                        type: string 
+                                                        example: "1V"
+                                                    Cancelled: 
+                                                        type: boolean
+                                                        example: True
+                                                    CreatedDate:
+                                                        type: string 
+                                                        example: "2019-09-16T12:14:03.151+00:00"
+                                                    ModifiedDate: 
+                                                        type: string
+                                                        example: "2019-09-16T15:21:34.913+00:00"
+                                                    LocatorCode: 
+                                                        type: string
+                                                        example: "TNTXR0"
+
 
 components:
   schemas:
@@ -888,4 +930,13 @@ components:
                 example: true                       
              
 
-
+    TicketBooking:
+        title: Request
+        type: object
+        required:
+            - trip_id
+        properties:
+            trip_id:
+                type: string
+                description: Trip ID returned in search response
+                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
