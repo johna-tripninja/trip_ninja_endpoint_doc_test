@@ -103,15 +103,20 @@ paths:
                                             items: 
                                                 type: object
                                                 properties:
-                                                    ProviderCode: 
+                                                    ProviderCode:
+                                                        type: string 
                                                         example: "1V"
                                                     Cancelled: 
+                                                        type: boolean
                                                         example: True
-                                                    CreatedDate: 
+                                                    CreatedDate:
+                                                        type: string 
                                                         example: "2019-09-16T12:14:03.151+00:00"
                                                     ModifiedDate: 
+                                                        type: string
                                                         example: "2019-09-16T15:21:34.913+00:00"
                                                     LocatorCode: 
+                                                        type: string
                                                         example: "TNTXR0"
 
     /my-bookings/:
