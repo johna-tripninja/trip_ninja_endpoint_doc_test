@@ -500,20 +500,48 @@ components:
                     flight_details:
                         type: object
                         properties:
-                            WS3485: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
-                            markup: 0
-                            passenger_type: "ADT"
-                            plating_carrier: "WS"
-                            price: 0
-                            price_with_markup: 0
-                            private_fare: false
-                            segment_id: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
-                            segment_source: "travelport"
-                            taxes: 75.53
-                            transp_time: 425
-                            visible: true
-                            weight: 1
-                            weight_with_markup: 1
+                            WS3485: 
+                                type: object
+                                example: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
+                            markup: 
+                                type: float
+                                example: 0
+                            passenger_type: 
+                                type: string
+                                example: "ADT"
+                            plating_carrier: 
+                                type: string
+                                example: "WS"
+                            price: 
+                                type: float
+                                example: 0
+                            price_with_markup:
+                                type: float 
+                                example: 0
+                            private_fare: 
+                                type: boolean
+                                example: false
+                            segment_id: 
+                                type: string
+                                example: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
+                            segment_source: 
+                                type: string
+                                example: "travelport"
+                            taxes:
+                                type: float
+                                example: 75.53
+                            transp_time: 
+                                type: integer
+                                example: 425
+                            visible: 
+                                type: boolean
+                                example: true
+                            weight: 
+                                type: integer
+                                example: 1
+                            weight_with_markup: 
+                                type: integer
+                                example: 1
                     Group0:
                         type: object
                         description: One-way segment or first part of open-jaw segment
