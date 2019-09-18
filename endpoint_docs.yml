@@ -1437,7 +1437,7 @@ components:
                                         type: object
                                         description:
                                         properties:
-                                                traveller_list:
+                                            traveller_list:
                                                 description: "Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’"
                                                 type: array
                                                 example: ['ADT']
