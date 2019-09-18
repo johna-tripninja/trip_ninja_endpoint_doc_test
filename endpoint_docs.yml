@@ -1279,7 +1279,7 @@ components:
     
 
     
-    CreatePNR:
+    Booking:
         title: Request
         type: object
         required:
