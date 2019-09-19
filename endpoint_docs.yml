@@ -222,7 +222,7 @@ components:
                 markup: 
                     type: float
                     example: 0
-                    description:
+                    description: Markup amount specified by Trip Ninja. This can be found in the trip search response
                 pcc: 
                     type: string
                     example: "2G3C"
@@ -440,7 +440,7 @@ components:
                     example: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
                 trip_type: 
                     type: string
-                    description: 
+                    description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
                     example: "OneWay"
     selected_segments:
         allOf:
@@ -531,6 +531,7 @@ components:
                                 type: object
                                 example: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
                             markup: 
+                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response
                                 type: float
                                 example: 0
                             passenger_type: 
@@ -787,7 +788,7 @@ components:
             required: true
             type: string
         markup: 
-            description:
+            description: Markup amount specified by Trip Ninja. This can be found in the trip search response
             required: true 
             type: float
             example: 0
@@ -858,7 +859,7 @@ components:
                             markup: 
                                 type: float
                                 example: 0
-                                description:
+                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response
                             pcc: 
                                 type: string
                                 example: "2G3C"
@@ -887,7 +888,7 @@ components:
                                     example: "5e259d35a6efc66a83b613291a9ab9c2749117bd"
                             trip_type: 
                                 type: string
-                                description: 
+                                description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
                                 example: "FlexTrip"
                             path_sequence:
                                 description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
