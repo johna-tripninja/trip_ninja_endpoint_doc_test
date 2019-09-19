@@ -753,7 +753,7 @@ components:
         selected_segments:
             $ref: '#/components/schemas/selected_segments'
         trip_type:
-            description:
+            description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
             required: True
             type: string
             example: OneWay 
