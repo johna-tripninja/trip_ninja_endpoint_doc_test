@@ -48,7 +48,7 @@ paths:
     /price-confirm-prod/:
         post:
             summary: "Price Confirm"
-            description: |
+            description: Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.
                 Endpoint: /price-confirm-prod(prepod)/
 
             operationId: PriceConfirm
@@ -137,10 +137,10 @@ paths:
                                                     type: string
                                                     example: "TNTXR0"
 
-    /my-bookings/:
+    /ticketing/:
             post:
                 summary: "Report Ticketing"
-                description: "To report a booking that has been ticketed, use this endpoint '/my-bookings/'"
+                description: "To report a booking that has been ticketed, use this endpoint '/ticketing/'"
                 operationId: "TicketBooking"
                 requestBody:
                     content:
@@ -336,9 +336,6 @@ components:
                             required: false
                             type: string
                             example: AC
-                        prohibit_unbundled_fares: 
-                            type: boolean
-                            example: false
                         provider: 
                             description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                             required: true 
