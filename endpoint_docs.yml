@@ -97,7 +97,7 @@ paths:
     /whitelabel-cancel/:
         post:
             summary: "Cancel Booking"
-            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/cancel/”"
+            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/whitelabel-cancel/”"
             operationId: "CancelBooking"
             requestBody:
                 content:
@@ -121,6 +121,7 @@ paths:
                                             type: object
                                             properties:
                                                 ProviderCode:
+                                                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                                                     type: string 
                                                     example: "1V"
                                                 Cancelled: 
@@ -163,6 +164,7 @@ paths:
                                                 type: object
                                                 properties:
                                                     ProviderCode:
+                                                        description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                                                         type: string 
                                                         example: "1V"
                                                     Cancelled: 
@@ -246,8 +248,13 @@ components:
                 trip:
                     type: object
                     properties:
-                        ErrorDetailsDict: {}
-                        pcc: "2G3C"
+                        ErrorDetailsDict:
+                            type: object 
+                            example: {}
+                        pcc: 
+                            type: string
+                            example: "2G3C"
+                            description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
                         alliance: ""
                         alpha: 0.1
                         cabin: "E"
@@ -286,7 +293,6 @@ components:
                         to_city: "NYC"
                         to_city_full: "New York, NY, USA - All Airports | NYC"
                         traveller_list: ["ADT"]
-                        0: "ADT"
                         travellers: 1
                         travelport_itx: false
                         travelport_student: false
