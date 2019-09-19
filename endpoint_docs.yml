@@ -139,7 +139,7 @@ paths:
 
     /my-bookings/:
             post:
-                summary: "Reporting Ticketing"
+                summary: "Report Ticketing"
                 description: "To report a booking that has been ticketed, use this endpoint '/my-bookings/'"
                 operationId: "TicketBooking"
                 requestBody:
