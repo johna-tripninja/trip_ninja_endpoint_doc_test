@@ -255,49 +255,185 @@ components:
                             type: string
                             example: "2G3C"
                             description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-                        alliance: ""
-                        alpha: 0.1
-                        cabin: "E"
-                        cabin_class: "E"
-                        credentials: {username: "WSNA5OTA", password: "S1stH", user_id: "testing1",…}
-                        mystifly: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"
-                        password: "S1stH"
-                        tripstack: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
-                        user_id: "testing1"
-                        username: "WSNA5OTA"
-                        currency: "USD"
-                        departure_date: "2019-10-09"
-                        departuredate: "2019-10-09"
-                        end: "NYC"
-                        end_type: "C"
-                        endpoint: "preprod"
-                        exclude_carriers: []
-                        from_city: "YHZ"
-                        from_city_full: "Halifax, NS, Canada | YHZ"
-                        group: ""
-                        id: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
-                        max_cache: 0.04
-                        no_overnight_layovers: false
-                        num_results: 50
-                        permitted_carriers: []
-                        prohibit_unbundled_fares: false
-                        provider: "1V"
-                        refundable: false
-                        region: "americas"
-                        schema: 40
-                        source: "whitelabel.tripninja.io"
-                        start: "YHZ"
-                        start_type: "A"
-                        stops: "any"
-                        time_value: 1
-                        to_city: "NYC"
-                        to_city_full: "New York, NY, USA - All Airports | NYC"
-                        traveller_list: ["ADT"]
-                        travellers: 1
-                        travelport_itx: false
-                        travelport_student: false
-                        user: "testing1"
-                        user_email: "testing1@tripninja.io"
+                        alliance:
+                            description: Parameter toggles the preferred alliance for your query. If there are results containing flights from the given alliance, only flights from that alliance will be returned. Otherwise it will return flights from any alliance. *Travelport Only*
+                            required: false
+                            type: string
+                            example: "*A"
+                        alpha: 
+                            type: string
+                            example: 0.1
+                        cabin:
+                            type: string
+                            description:
+                            example: E
+                        cabin_class:
+                            type: string
+                            description: Cabin class for the entire segment *Travelport customers only*
+                            example: E
+                        credentials: 
+                            type: object
+                            description:
+                            properties:
+                                username: 
+                                    type: string
+                                    example: "WSNA50TA"
+                                password: 
+                                    type: string 
+                                    example: "FDSFSGSGR"
+                                user_id: 
+                                    type: string
+                                    example: "testing"
+                                mystifly: 
+                                    type: string
+                                    example: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"  
+                        tripstack:
+                            type: string
+                            example: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
+                        currency:
+                                type: string 
+                                example: "USD"
+                                description: Currency to be used for provider query requests in three digit code.
+                        departure_date: 
+                            type: string
+                            example: "2019-10-09"
+                        end:
+                            type: string
+                            description: Used to return to a different city than the departure_city, if none specified will default to always returning to the departure_city.
+                            example: NYC
+                        end_type:
+                            type: string
+                            description: Upper-case letter “C” for city or “A” for airport
+                            example: C
+                        endpoint: 
+                            type: string
+                            example: "preprod"
+                        exclude_carriers:
+                            description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
+                            required: false
+                            type: array
+                            example: []
+                            items:
+                                type: string
+                        from_city: 
+                            type: string
+                            description: Departure city/airport IATA code.
+                            example: "YHZ"
+                        from_city_full: 
+                            type: string
+                            description: 
+                            example: "Halifax, NS, Canada | YHZ"
+                        group:
+                            type: string
+                            description:
+                            example: ""
+                        id:
+                            type: string
+                            description:
+                            example: 3c633c67db5ee5b993ad4291638fec8b9a1effc2       
+                        max_cache:
+                            default: 24
+                            description: |
+                                Hours to retain data queried from provider to be cached for use in future requests.
+                                Higher values result in:<br  />
+                                    1) faster queries as more data is available for re-use<br  />
+                                    2) lower look-to-book ratios from the GDS perspective which may lower costs<br  />
+                                    3) less accurate pricing data which may cause issues in AirPriceReq when ticketing.<br  />
+                                Minimum value is 0.04 hours, maximum value is 720 hours.
+                                Please discuss with your Trip Ninja Account Manager if you need
+                                access to caching outside these limits.
+                            required: false
+                            type: integer              
+                        no_overnight_layovers:
+                            description: Toggles whether to return results with no overnight layovers *Travelport Only*
+                            type: boolean
+                            default: false
+                        num_results:
+                            description: Parameter sets the number of segments in the response *Travelport Only*
+                            default: 50
+                            type: integer
+                        permitted_carrier:
+                            description: Toggles permitted carriers in GDS request *Travelport Only*
+                            required: false
+                            type: string
+                            example: AC
+                        prohibit_unbundled_fares: 
+                            type: boolean
+                            example: false
+                        provider: 
+                            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+                            required: true 
+                            type: string
+                            example: 1V
+                        refundable:
+                            description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
+                            default: false
+                            type: boolean
+                        region: 
+                            type: string
+                            example: "americas"
+                            description: Parameter toggles which travelport endpoint you hit Travelport Only
+                        schema:
+                            default: 40
+                            description: Toggles which Travelport schema version to use. *Travelport Only*
+                            required: false
+                            type: integer
+                        source: 
+                            type: string
+                            example: "whitelabel.tripninja.io"
+                        start: 
+                            type: string
+                            example: "YHZ"
+                        start_type: 
+                            type: string
+                            example: "A"
+                        stops:
+                            description: Toggles number of stop for GDS request *Travelport Only*
+                            default: "Any"
+                            type: string
+                        time_value:
+                            default: 0
+                            description: |
+                                This parameter helps set the value of a passenger’s time, in
+                                terms of the currency selected. It is used to trade off flight
+                                prices versus flight durations. The parameter is in units of
+                                [currency]/hour. Flight durations are calculated as the difference
+                                in minutes from the arrival time of the last flight in a leg to
+                                the departure time of the first flight in the leg.
+                                True Cost of Flight = [Flight Price] * [time_value/60] * [Flight Duration]
+                                The itinerary which provides the lowest True Cost of Flight is
+                                what is returned in the response. If you provide a time_value
+                                of 0 or do not provide the parameter, it will sort by price.
+                            required: false
+                            type: integer
+                        to_city: 
+                            type: string
+                            example: "NYC"
+                        to_city_full: 
+                            type: string
+                            example: "New York, NY, USA - All Airports | NYC"
+                        traveller_list: 
+                            type: array
+                            example: ["ADT"]
+                            description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
+                        travellers:
+                            type: integer
+                            description: 
+                            example: 1
+                        travelport_itx: 
+                            type: boolean
+                            description:
+                            example: false
+                        travelport_student:
+                            type: boolean
+                            description: 
+                            example: false
+                        user: 
+                            type: string
+                            example: "testing1"
+                        user_email: 
+                            type: string
+                            example: "testing1@tripninja.io"
                 trip_id: 
                     type: string
                     description: A unique key used for identification and when booking a trip.
