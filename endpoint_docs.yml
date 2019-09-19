@@ -49,7 +49,7 @@ paths:
         post:
             summary: "Price Confirm"
             description: Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.
-                Endpoint: /price-confirm-prod(prepod)/
+            Endpoint: /price-confirm-prod(prepod)/
 
             operationId: PriceConfirm
             requestBody:
@@ -785,7 +785,7 @@ components:
         properties:
             queue:
                 type: string
-                description: 
+                description: Ticketing queue on which to place the PNR
                 example: "01"
             trip:
                 type: object
@@ -921,7 +921,7 @@ components:
                         example: anEmail@email.com
             ticketed: 
                 type: boolean
-                description: "TODO"
+                description: Set true to add PNR to ticketing queue.
                 example: true                       
              
 
