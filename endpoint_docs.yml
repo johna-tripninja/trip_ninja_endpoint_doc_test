@@ -139,8 +139,8 @@ paths:
 
     /my-bookings/:
             post:
-                summary: "Ticket Booking"
-                description: "To ticket a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/my-bookings/”"
+                summary: "Reporting Ticketing"
+                description: "To report a booking that has been ticketed, use this endpoint '/my-bookings/'"
                 operationId: "TicketBooking"
                 requestBody:
                     content:
@@ -260,9 +260,6 @@ components:
                             required: false
                             type: string
                             example: "*A"
-                        alpha: 
-                            type: string
-                            example: 0.1
                         cabin:
                             type: string
                             description:
@@ -271,30 +268,12 @@ components:
                             type: string
                             description: Cabin class for the entire segment *Travelport customers only*
                             example: E
-                        credentials: 
-                            type: object
-                            description:
-                            properties:
-                                username: 
-                                    type: string
-                                    example: "WSNA50TA"
-                                password: 
-                                    type: string 
-                                    example: "FDSFSGSGR"
-                                user_id: 
-                                    type: string
-                                    example: "testing"
-                                mystifly: 
-                                    type: string
-                                    example: "A6D73B11-4333-42DF-9773-8EB58C2ED9C3-365"  
-                        tripstack:
-                            type: string
-                            example: "dHJpcG5pbmphOnJEc1A5NDNvRUZiVFk3dE5RdXdkZ2lXSQ=="
                         currency:
                                 type: string 
                                 example: "USD"
                                 description: Currency to be used for provider query requests in three digit code.
                         departure_date: 
+                            description: "Departure date for this leg, format: YYYY-MM-DD. Any trailing characters after do not affect the API’s functionality."
                             type: string
                             example: "2019-10-09"
                         end:
@@ -383,8 +362,10 @@ components:
                             example: "whitelabel.tripninja.io"
                         start: 
                             type: string
+                            description: Start city/airport IATA code of leg.
                             example: "YHZ"
                         start_type: 
+                            description: "Upper-case letter “C” for city or “A” for airport"
                             type: string
                             example: "A"
                         stops:
@@ -408,6 +389,7 @@ components:
                             type: integer
                         to_city: 
                             type: string
+                            description: End city/airport IATA code of leg.
                             example: "NYC"
                         to_city_full: 
                             type: string
@@ -420,17 +402,6 @@ components:
                             type: integer
                             description: 
                             example: 1
-                        travelport_itx: 
-                            type: boolean
-                            description:
-                            example: false
-                        travelport_student:
-                            type: boolean
-                            description: 
-                            example: false
-                        user: 
-                            type: string
-                            example: "testing1"
                         user_email: 
                             type: string
                             example: "testing1@tripninja.io"
@@ -567,9 +538,6 @@ components:
                                 type: integer
                                 description: Transportation time for the segment
                                 example: 425
-                            visible: 
-                                type: boolean
-                                example: true
                             weight: 
                                 type: float
                                 description: Weight of the segment (time-value considered).
@@ -917,23 +885,23 @@ components:
                         first:
                             type: string
                             description: ""
-                            example: "Test"
+                            example: FirstName
                         last:
                             type: string
                             description: ""
-                            example: C
+                            example: LastName
                         dob:
                             type: string
                             description: ""
-                            example: "LON"
+                            example: "2005-03-10T04:00:00.000Z"
                         phone:
                             type: string
                             description: ""
-                            example: C
+                            example: 9022225555
                         country:
                             type: string
                             description: ""
-                            example: "2019-06-20"
+                            example: "AZ"
                         type:
                             type: string
                             description: ""
