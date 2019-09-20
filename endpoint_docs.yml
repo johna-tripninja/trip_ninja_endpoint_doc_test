@@ -87,9 +87,11 @@ paths:
                                           properties:
                                                      locator: 
                                                         type: string
+                                                        description: Unique Identifier of a Universal Record. *Travelport customers only*   
                                                         example: 6D6RMG
                                                      result: 
                                                         type: string
+                                                        description: Success of the booking.
                                                         example: "True"                                
 
     /whitelabel-cancel/:
@@ -112,6 +114,7 @@ paths:
                                 properties:
                                     status:
                                         type: string
+                                        description: True/false as to whether request to cancel was succesful
                                         example: "true"
                                     response:
                                         type: array
@@ -133,6 +136,7 @@ paths:
                                                     example: "2019-09-16T15:21:34.913+00:00"
                                                 LocatorCode: 
                                                     type: string
+                                                    description: Unique Identifier of a Universal Record. *Travelport customers only*
                                                     example: "TNTXR0"
 
     /ticketing/:
@@ -167,15 +171,19 @@ paths:
                                                         example: "1V"
                                                     Cancelled: 
                                                         type: boolean
+                                                        description: Shows whether booking is cancelled or not.
                                                         example: True
                                                     CreatedDate:
                                                         type: string 
+                                                        description: The date when the booking was created.
                                                         example: "2019-09-16T12:14:03.151+00:00"
                                                     ModifiedDate: 
                                                         type: string
+                                                        description: The date when the booking was last modified.
                                                         example: "2019-09-16T15:21:34.913+00:00"
                                                     LocatorCode: 
                                                         type: string
+                                                        description: Unique Identifier of a Universal Record. *Travelport customers only*
                                                         example: "TNTXR0"
 
 
