@@ -199,7 +199,7 @@ components:
             example: 79.23
         confirmation_id:
             type: string
-            description: "TODO"
+            description: "A unique key used to indicate a successful booking."
             example: "5675057ca2cd084edbd498f960b9a202cb530202"
         fees:
             type: float
@@ -216,7 +216,7 @@ components:
                 endpoint: 
                     type: string
                     example: "preprod"
-                    description:
+                    description: Identify server to send request, values include prod or preprod.
                 markup: 
                     type: float
                     example: 0
