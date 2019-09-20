@@ -97,7 +97,7 @@ paths:
     /whitelabel-cancel/:
         post:
             summary: "Cancel Booking"
-            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/whitelabel-cancel/”"
+            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/whitelabel-cancel/”."
             operationId: "CancelBooking"
             requestBody:
                 content:
@@ -114,7 +114,7 @@ paths:
                                 properties:
                                     status:
                                         type: string
-                                        description: True/false as to whether request to cancel was succesful
+                                        description: True/false as to whether request to cancel was succesful.
                                         example: "true"
                                     response:
                                         type: array
@@ -122,7 +122,7 @@ paths:
                                             type: object
                                             properties:
                                                 ProviderCode:
-                                                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
+                                                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus.
                                                     type: string 
                                                     example: "1V"
                                                 Cancelled: 
@@ -145,7 +145,7 @@ paths:
     /ticketing/:
             post:
                 summary: "Report Ticketing"
-                description: "To report a booking that has been ticketed, use this endpoint '/ticketing/'"
+                description: "To report a booking that has been ticketed, use this endpoint '/ticketing/'."
                 operationId: "TicketBooking"
                 requestBody:
                     content:
@@ -162,7 +162,7 @@ paths:
                                     properties:
                                         status: 
                                             type: string
-                                            description: True/false as to whether request to ticket was succesful
+                                            description: True/false as to whether request to ticket was succesful.
                                             example: "true"
                                         response:
                                             type: array
@@ -207,7 +207,7 @@ components:
             example: []
         taxes:
             type: float
-            description: Tax price of the segment
+            description: Tax price of the segment.
             example: 79.23
         confirmation_id:
             type: string
@@ -219,7 +219,7 @@ components:
             example: 0
         trip:
             type: object
-            description: Contains the JSON object provided as the request
+            description: Contains the JSON object provided as the request.
             properties:
                 currency:
                     type: string 
@@ -232,7 +232,7 @@ components:
                 markup: 
                     type: float
                     example: 0
-                    description: Markup amount specified by Trip Ninja. This can be found in the trip search response
+                    description: Markup amount specified by Trip Ninja. This can be found in the trip search response.
                 pcc: 
                     type: string
                     example: "2G3C"
@@ -244,7 +244,7 @@ components:
                 region: 
                     type: string
                     example: "americas"
-                    description: Parameter toggles which travelport endpoint you hit Travelport Only
+                    description: Parameter toggles which travelport endpoint you hit. *Travelport Only*
                 selected_segments: 
                     $ref: '#/components/schemas/selected_segments'
                 total_price: 
@@ -254,7 +254,7 @@ components:
                 traveller_list: 
                     type: array
                     example: ["ADT"]
-                    description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
+                    description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’.
                 trip:
                     type: object
                     properties:
@@ -264,13 +264,13 @@ components:
                             example: {}
                         pcc: 
                             type: string
-                            example: "2G3C"
                             description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
+                            example: "2G3C"
                         alliance:
-                            description: Parameter toggles the preferred alliance for your query. If there are results containing flights from the given alliance, only flights from that alliance will be returned. Otherwise it will return flights from any alliance. *Travelport Only*
-                            required: false
                             type: string
+                            description: Parameter toggles the preferred alliance for your query. If there are results containing flights from the given alliance, only flights from that alliance will be returned. Otherwise it will return flights from any alliance. *Travelport Only*
                             example: "*A"
+                            required: false
                         cabin:
                             type: string
                             description: Cabin class e.g economy, business, first class.
@@ -281,11 +281,11 @@ components:
                             example: E
                         currency:
                                 type: string 
-                                example: "USD"
                                 description: Currency to be used for provider query requests in three digit code.
+                                example: "USD"
                         departure_date: 
-                            description: "Departure date for this leg, format: YYYY-MM-DD. Any trailing characters after do not affect the API’s functionality."
                             type: string
+                            description: "Departure date for this leg, format: YYYY-MM-DD. Any trailing characters after do not affect the API’s functionality."
                             example: "2019-10-09"
                         end:
                             type: string
@@ -300,10 +300,10 @@ components:
                             description: Identify server to send request, values include prod or preprod.
                             example: "preprod"
                         exclude_carriers:
-                            description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
-                            required: false
                             type: array
+                            description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
                             example: []
+                            required: false
                             items:
                                 type: string
                         from_city: 
@@ -319,6 +319,7 @@ components:
                             description: A unique key used for identification and when booking a trip.
                             example: 687d1237857c65c70fe9eb175d23d6631f20bafa       
                         max_cache:
+                            type: integer              
                             default: 24
                             description: |
                                 Hours to retain data queried from provider to be cached for use in future requests.
@@ -330,56 +331,55 @@ components:
                                 Please discuss with your Trip Ninja Account Manager if you need
                                 access to caching outside these limits.
                             required: false
-                            type: integer              
                         no_overnight_layovers:
-                            description: Toggles whether to return results with no overnight layovers *Travelport Only*
                             type: boolean
+                            description: Toggles whether to return results with no overnight layovers *Travelport Only*
                             default: false
                         num_results:
+                            type: integer
                             description: Parameter sets the number of segments in the response *Travelport Only*
                             default: 50
-                            type: integer
                         permitted_carrier:
+                            type: string
                             description: Toggles permitted carriers in GDS request *Travelport Only*
-                            required: false
-                            type: string
                             example: AC
+                            required: false
                         provider: 
-                            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                            required: true 
                             type: string
+                            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                             example: 1V
+                            required: true 
                         refundable:
+                            type: boolean
                             description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
                             default: false
-                            type: boolean
                         region: 
                             type: string
-                            example: "americas"
                             description: Parameter toggles which travelport endpoint you hit Travelport Only
+                            example: "americas"
                         schema:
-                            default: 40
-                            description: Toggles which Travelport schema version to use. *Travelport Only*
-                            required: false
                             type: integer
+                            description: Toggles which Travelport schema version to use. *Travelport Only*
+                            default: 40
+                            required: false
                         source: 
-                            description: Url source of request e.g whitelabel.tripninja.io
                             type: string
+                            description: Url source of request e.g whitelabel.tripninja.io
                             example: "whitelabel.tripninja.io"
                         start: 
                             type: string
                             description: Start city/airport IATA code of leg.
                             example: "YHZ"
                         start_type: 
-                            description: "Upper-case letter “C” for city or “A” for airport"
                             type: string
+                            description: "Upper-case letter “C” for city or “A” for airport"
                             example: "A"
                         stops:
+                            type: string
                             description: Toggles number of stop for GDS request *Travelport Only*
                             default: "Any"
-                            type: string
                         time_value:
-                            default: 0
+                            type: integer
                             description: |
                                 This parameter helps set the value of a passenger’s time, in
                                 terms of the currency selected. It is used to trade off flight
@@ -391,8 +391,8 @@ components:
                                 The itinerary which provides the lowest True Cost of Flight is
                                 what is returned in the response. If you provide a time_value
                                 of 0 or do not provide the parameter, it will sort by price.
+                            default: 0
                             required: false
-                            type: integer
                         to_city: 
                             type: string
                             description: End city/airport IATA code of leg.
@@ -403,8 +403,8 @@ components:
                             example: "New York, NY, USA - All Airports | NYC"
                         traveller_list: 
                             type: array
-                            example: ["ADT"]
                             description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
+                            example: ["ADT"]
                         travellers:
                             type: integer
                             description: The number of travellers for a booking.
