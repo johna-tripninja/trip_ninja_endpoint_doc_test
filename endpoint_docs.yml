@@ -67,7 +67,7 @@ paths:
     /create-pnr/:
         post:
             summary: "Create Booking"
-            description: "When a trip is to be booked, send a request to the endpoint /create-pnr/ to create the Universal Record and associated PNR's for the trip. The booking will then be placed on the agency's ticketing queue.”"
+            description: "When a trip is to be booked, send a request to the endpoint /create-pnr/ to create the Universal Record and associated PNR's for the trip. The booking will then be placed on the agency's ticketing queue."
             operationId: "CreateBooking"
             requestBody:
                 content:
