@@ -160,8 +160,9 @@ paths:
                                 schema:
                                     type: object
                                     properties:
-                                        status:
+                                        status: 
                                             type: string
+                                            description: True/false as to whether request to ticket was succesful
                                             example: "true"
                                         response:
                                             type: array
