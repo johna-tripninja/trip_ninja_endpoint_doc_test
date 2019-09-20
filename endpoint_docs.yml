@@ -256,6 +256,7 @@ components:
                     properties:
                         ErrorDetailsDict:
                             type: object 
+                            description: "Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur."
                             example: {}
                         pcc: 
                             type: string
@@ -316,7 +317,7 @@ components:
                         id:
                             type: string
                             description:
-                            example: 3c633c67db5ee5b993ad4291638fec8b9a1effc2       
+                            example: 687d1237857c65c70fe9eb175d23d6631f20bafa       
                         max_cache:
                             default: 24
                             description: |
@@ -362,7 +363,7 @@ components:
                             required: false
                             type: integer
                         source: 
-                            description: 
+                            description: Url source of request e.g whitelabel.tripninja.io
                             type: string
                             example: "whitelabel.tripninja.io"
                         start: 
@@ -415,7 +416,7 @@ components:
                 trip_id: 
                     type: string
                     description: A unique key used for identification and when booking a trip.
-                    example: "cd9dc0d637d35a69b1c8569b8773fe8591a7360b"
+                    example: "687d1237857c65c70fe9eb175d23d6631f20bafa"
                 trip_type: 
                     type: string
                     description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
