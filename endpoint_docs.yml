@@ -284,6 +284,7 @@ components:
                             example: C
                         endpoint: 
                             type: string
+                            description: Identify server to send request, values include prod or preprod.
                             example: "preprod"
                         exclude_carriers:
                             description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
