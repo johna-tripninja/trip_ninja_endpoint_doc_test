@@ -310,13 +310,9 @@ components:
                             type: string
                             description: Full name of departing city/airport.
                             example: "Halifax, NS, Canada | YHZ"
-                        group:
-                            type: string
-                            description:
-                            example: ""
                         id:
                             type: string
-                            description:
+                            description: A unique key used for identification and when booking a trip.
                             example: 687d1237857c65c70fe9eb175d23d6631f20bafa       
                         max_cache:
                             default: 24
@@ -418,7 +414,7 @@ components:
                     description: A unique key used for identification and when booking a trip.
                     example: "687d1237857c65c70fe9eb175d23d6631f20bafa"
                 trip_type: 
-                    type: string
+                    type: stringYe
                     description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
                     example: "OneWay"
     selected_segments:
