@@ -507,7 +507,7 @@ components:
                                 example: 0
                             passenger_type: 
                                 type: string
-                                description: Passagner type, values include �ADT�, �MIL�, �CHD� and �INF�.
+                                description: Passagner type, values include 'ADT', 'MIL', 'CHD' and 'INF'.
                                 example: "ADT"
                             plating_carrier: 
                                 type: string
@@ -912,7 +912,7 @@ components:
                             example: "AZ"
                         type:
                             type: string
-                            description: "The customer's passenger type. Values include �ADT�, �MIL�, �CHD� and �INF�."
+                            description: "The customer's passenger type. Values include 'ADT', 'MIL', 'CHD' and 'INF'."
                             example: "ADT"
             billing:
                 type: object
