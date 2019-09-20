@@ -127,12 +127,15 @@ paths:
                                                     example: "1V"
                                                 Cancelled: 
                                                     type: boolean
+                                                    description: Shows whether booking is cancelled or not.
                                                     example: True
                                                 CreatedDate:
                                                     type: string 
+                                                    description: The date when the booking was created.
                                                     example: "2019-09-16T12:14:03.151+00:00"
                                                 ModifiedDate: 
                                                     type: string
+                                                    description: The date when the booking was last modified.
                                                     example: "2019-09-16T15:21:34.913+00:00"
                                                 LocatorCode: 
                                                     type: string
