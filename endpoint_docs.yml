@@ -417,6 +417,7 @@ components:
                     type: stringYe
                     description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
                     example: "OneWay"
+    
     selected_segments:
         allOf:
           - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
@@ -708,6 +709,7 @@ components:
                                                 type: integer
                                                 description: Flight duration in minutes
                                                 example: 475        
+    
     PriceConfirmRequest:
       title: Request
       type: object
@@ -770,6 +772,7 @@ components:
             required: true 
             type: float
             example: 0
+    
     CancelRequest:
         title: Request
         type: object
@@ -785,6 +788,7 @@ components:
                 type: string
                 description: Identify server to send request, values include prod or preprod.
                 example: prepod
+    
     CreateBooking:
         title: Request
         type: object
@@ -944,8 +948,7 @@ components:
                 type: boolean
                 description: Set true to add PNR to ticketing queue.
                 example: true                       
-             
-
+    
     TicketBooking:
         title: Request
         type: object
