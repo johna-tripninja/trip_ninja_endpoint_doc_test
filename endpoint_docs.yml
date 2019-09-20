@@ -49,8 +49,6 @@ paths:
         post:
             summary: "Price Confirm"
             description: Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.
-            Endpoint: /price-confirm-prod(prepod)/
-
             operationId: PriceConfirm
             requestBody:
                 content:
@@ -262,7 +260,7 @@ components:
                             example: "*A"
                         cabin:
                             type: string
-                            description:
+                            description: Cabin class e.g economy, business, first class.
                             example: E
                         cabin_class:
                             type: string
@@ -300,7 +298,7 @@ components:
                             example: "YHZ"
                         from_city_full: 
                             type: string
-                            description: 
+                            description: Full name of departing city/airport.
                             example: "Halifax, NS, Canada | YHZ"
                         group:
                             type: string
@@ -355,6 +353,7 @@ components:
                             required: false
                             type: integer
                         source: 
+                            description: 
                             type: string
                             example: "whitelabel.tripninja.io"
                         start: 
@@ -390,6 +389,7 @@ components:
                             example: "NYC"
                         to_city_full: 
                             type: string
+                            description: Full name of end city/airport.
                             example: "New York, NY, USA - All Airports | NYC"
                         traveller_list: 
                             type: array
@@ -397,10 +397,11 @@ components:
                             description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
                         travellers:
                             type: integer
-                            description: 
+                            description: The number of travellers for a booking.
                             example: 1
                         user_email: 
                             type: string
+                            description: The user's email address.
                             example: "testing1@tripninja.io"
                 trip_id: 
                     type: string
@@ -443,7 +444,7 @@ components:
                         example: 96.9
                     weight_with_markup:
                         type: float
-                        description: ""
+                        description: "Weight of the segment including markup (time-value considered)."
                         example: 1
                     price:
                         type: float
@@ -479,7 +480,7 @@ components:
                         example: 3RxQ6ylJ0BKAhQAbnbAAAA==
                     private_fare:
                         type: boolean
-                        description: True if segment is a private fare, otherwise False *Travelport customers only*
+                        description: True if segment is a private fare, otherwise False *Travelport customers only*.
                         example: false
                     segment_id:
                         type: string
@@ -487,26 +488,30 @@ components:
                         example: "b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2"
                     transp_time:
                         type: float
-                        description: Transportation time for the segment
+                        description: Transportation time for the segment.
                         example: 75
                     segment_source:
                         type: string
                         description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
                     flight_details:
                         type: object
+                        description: Detailed information regarding the flight.
                         properties:
                             WS3485: 
                                 type: object
+                                description: Specific flight details.
                                 example: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
                             markup: 
-                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response
+                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response.
                                 type: float
                                 example: 0
                             passenger_type: 
                                 type: string
+                                description: Passagner type, values include �ADT�, �MIL�, �CHD� and �INF�.
                                 example: "ADT"
                             plating_carrier: 
                                 type: string
+                                description: The airline that a ticket has been issued on behalf of.
                                 example: "WS"
                             price: 
                                 type: float
@@ -514,6 +519,7 @@ components:
                                 example: 0
                             price_with_markup:
                                 type: float 
+                                description: Price of the segment including markup (fare and tax included).
                                 example: 0
                             private_fare: 
                                 type: boolean
@@ -540,7 +546,8 @@ components:
                                 description: Weight of the segment (time-value considered).
                                 example: 239
                             weight_with_markup: 
-                                type: integer
+                                type: float
+                                description: Weight of the segment including markup (time-value considered).
                                 example: 1
                     Group0:
                         type: object
@@ -770,7 +777,7 @@ components:
                 example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
             endpoint:
                 type: string
-                description: 
+                description: Identify server to send request, values include prod or preprod.
                 example: prepod
     CreateBooking:
         title: Request
@@ -789,7 +796,7 @@ components:
                 example: "01"
             trip:
                 type: object
-                description:
+                description: Contains the trip details as a JSON Object.
                 properties:
                     total_price:
                         description: Total price of cheapest segments recommended, in currency specified.
@@ -805,6 +812,7 @@ components:
                         example: 162.93
                     confirmation_id:
                         type: string
+                        description: A unique key used to indicate a successful booking.
                         example: aacdf5c8bd8cda2543d0a874090c004bab9c3207
                     fees:
                         type: float
@@ -820,7 +828,7 @@ components:
                             endpoint: 
                                 type: string
                                 example: "preprod"
-                                description:
+                                description: Identify server to send request, values include prod or preprod.
                             markup: 
                                 type: float
                                 example: 0
@@ -861,15 +869,18 @@ components:
                                 example: [ "YHZ","NYC", "YTO", "YHZ" ]
                     total_price_difference:
                         type: float
+                        description: Difference in price between the original ticket and the ticket available for booking.
                         example: 0
                     additional_charges:
                         type: float
+                        description: Represents any additional charges added to the booking.
                         example: 162.93
                     markup_visible:
                         type: boolean
+                        description: Toggles whether or not to show markups.
                         example: false
             customers:
-                description: ""
+                description: "An array of customer details."
                 required: true
                 type: array
                 items:
@@ -877,37 +888,39 @@ components:
                     properties:
                         title:
                             type: string
-                            description: ""
+                            description: "The customer's title, values include 'Mr', 'Mrs', 'Ms'"
                             example: "Mr"
                         first:
                             type: string
-                            description: ""
+                            description: "The customer's first name."
                             example: FirstName
                         last:
                             type: string
-                            description: ""
+                            description: "The customer's last name."
                             example: LastName
                         dob:
                             type: string
-                            description: ""
+                            description: "The customer's date of birth."
                             example: "2005-03-10T04:00:00.000Z"
                         phone:
                             type: string
-                            description: ""
+                            description: "The customer's phone number."
                             example: 9022225555
                         country:
                             type: string
-                            description: ""
+                            description: "The customer's passport country of issue."
                             example: "AZ"
                         type:
                             type: string
-                            description: ""
+                            description: "The customer's passenger type. Values include �ADT�, �MIL�, �CHD� and �INF�."
                             example: "ADT"
             billing:
                 type: object
+                description: Billing information for the booking.
                 properties:
                     air_transportation_charges:
                         type: float
+                        description: Air transportation charges associated with the ticket. 
                         example: 220
                     currency:
                         type: string 
@@ -915,9 +928,11 @@ components:
                         description: Currency to be used for provider query requests in three digit code.
                     email:
                         type: string
+                        description: The billing email address.
                         example: anEmail@email.com
                     email_confirm:
                         type: string
+                        description: Confirmation of the billing email address.
                         example: anEmail@email.com
             ticketed: 
                 type: boolean
