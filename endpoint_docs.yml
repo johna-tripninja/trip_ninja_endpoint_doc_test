@@ -151,6 +151,10 @@ paths:
                             schema:
                                 type: object
                                 properties:
+                                        error: 
+                                            type: string
+                                            description: Error Code
+                                            example: "user is not authorized"
                 500:
                     description: Server Error
                     content:
@@ -158,8 +162,10 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                
-
+                                        error: 
+                                            type: string
+                                            description: Error Code
+                                            example: "user is not authorized"
 
     /flex-trip-prod/:
         post:
@@ -204,16 +210,24 @@ paths:
                     description: Partial Content
                     content:
                         application/json:
-                                schema:
-                                    type: object
-                                    properties:
+                            schema:
+                                type: object
+                                properties:
+                                        error: 
+                                            type: string
+                                            description: Error Code
+                                            example: "user is not authorized"
                 500:
                     description: Server Error
                     content:
                         application/json:
-                                schema:
-                                    type: object
-                                    properties:
+                            schema:
+                                type: object
+                                properties:
+                                        error: 
+                                            type: string
+                                            description: Error Code
+                                            example: "user is not authorized"
               
 
     /pre-booking/:
