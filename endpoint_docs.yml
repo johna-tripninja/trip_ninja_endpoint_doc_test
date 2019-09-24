@@ -197,17 +197,23 @@ paths:
                                 properties:
                                     trip:
                                         type: object
-                                        description: Trip Request Object
-                                    FareStructure:
+                                        description: Contains the JSON object provided as the request
+                                    FlexTrip:
                                         type: object
+                                        description: Contains the JSON object of the response.
                                         properties:
                                             ErrorDetails:
                                                 type: object
                                                 description: Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur.
                                                 properties:
-                                                    IE01:
+                                                    IE11:
                                                         type: string
-                                                        example: General ordered input error                                  
+                                                        description: : An example error code, refer to the error codes section for further details.
+                                                        example: General Input Error.
+                                                    IE24:
+                                                        type: string
+                                                        description: : An example error code, refer to the error codes section for further details.
+                                                        example: Too many or too few travellers found.                                                                                            
                 401:
                     description: Unauthorized
                     content:
