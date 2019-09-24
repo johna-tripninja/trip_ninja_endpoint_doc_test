@@ -151,10 +151,17 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                        error: 
-                                            type: string
-                                            description: Error Code
-                                            example: "user is not authorized"
+                                    trip:
+                                        type: object
+                                        description: Contains the JSON object provided as the request
+                                    FareStructure:
+                                        type: object
+                                        description: Contains the JSON object provided as the response
+                                        properties:
+                                            ErrorDetails:
+                                                type: object
+                                                description: Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur.
+                                                example: "Flight(s) not found: Could not find all the flights required to make up this trip. Try changing dates, IATA codes, cabin class, etc." 
                 500:
                     description: Server Error
 
@@ -254,7 +261,10 @@ paths:
                                                 type: array
                                                 description: 
                                                 example: [0, -2]
-                500:
+                                    trip:
+                                        type: object
+                                        description: Contains the JSON object provided as the request.
+                  500:
                     description: Server Error
                                 
               
@@ -421,7 +431,7 @@ components:
             alliance: ""
             alpha: 0.1
             schema: 40
-            pcc: 2G3C
+            PCC: 2G3C
         FareStructure:
             type: object
             description: Contains the JSON object of the response.
@@ -948,7 +958,7 @@ components:
               description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
               type: string
               example: 1V
-          pcc:
+          PCC:
               description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
               required: true
               type: string
@@ -1022,11 +1032,11 @@ components:
               default: false
           stops:
               description: Toggles number of stop for GDS request *Travelport Only*
-              default: "Any"
+              default: "any"
               type: string
           baggage:
               description: Toggles minimum number of bags included with flights for GDS request *Travelport Only*
-              default: "Any"
+              default: "any"
               type: string
           refundable:
               description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
@@ -1121,7 +1131,7 @@ components:
                 description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
                 type: string
                 example: 1V
-            pcc:
+            PCC:
                 description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
                 required: true
                 type: string
@@ -1191,11 +1201,11 @@ components:
                 default: false
             stops:
                 description: Toggles number of stop for GDS request *Travelport Only*
-                default: "Any"
+                default: "any"
                 type: string
             baggage:
                 description: Toggles minimum number of bags included with flights for GDS request *Travelport Only*
-                default: "Any"
+                default: "any"
                 type: string
             refundable:
                 description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
@@ -1231,7 +1241,7 @@ components:
             alliance: ""
             alpha: 0.1
             schema: 40
-            pcc: 2G3C
+            PCC: 2G3C
         FlexTrip:
             type: object
             description: Contains the JSON object of the response.
@@ -1280,10 +1290,3 @@ components:
 
 
     CancelRequest:
-        title: Request
-        type: object
-        properties:
-            trip_id:
-                type: string
-                description: Trip ID returned in search response
-                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
