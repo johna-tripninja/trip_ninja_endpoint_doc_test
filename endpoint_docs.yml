@@ -208,11 +208,11 @@ paths:
                                                 properties:
                                                     IE11:
                                                         type: string
-                                                        description: : An example error code, refer to the error codes section for further details.
+                                                        description: An example error code, refer to the error codes section for further details.
                                                         example: General Input Error.
                                                     IE24:
                                                         type: string
-                                                        description: : An example error code, refer to the error codes section for further details.
+                                                        description: An example error code, refer to the error codes section for further details.
                                                         example: Too many or too few travellers found.                                                                                            
                 401:
                     description: Unauthorized
