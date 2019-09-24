@@ -264,7 +264,7 @@ paths:
                                     trip:
                                         type: object
                                         description: Contains the JSON object provided as the request.
-                  500:
+                500:
                     description: Server Error
                                 
               
