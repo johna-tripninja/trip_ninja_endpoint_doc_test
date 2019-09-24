@@ -125,6 +125,7 @@ paths:
                                         description: Trip Request Object
                                     FareStructure:
                                         type: object
+                                        description: Contains the JSON object provided as the response
                                         properties:
                                             ErrorDetails:
                                                 type: object
@@ -164,11 +165,6 @@ paths:
                                                 example: "Flight(s) not found: Could not find all the flights required to make up this trip. Try changing dates, IATA codes, cabin class, etc." 
                 500:
                     description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                
 
     /flex-trip-prod/:
         post:
@@ -271,10 +267,6 @@ paths:
                                         description: Contains the JSON object provided as the request.
                 500:
                     description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
                                 
               
 
