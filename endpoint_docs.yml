@@ -192,9 +192,22 @@ paths:
                     description: Invalid Input
                     content:
                         application/json:
-                                schema:
-                                    type: object
-                                    properties:                                     
+                            schema:
+                                type: object
+                                properties:
+                                    trip:
+                                        type: object
+                                        description: Trip Request Object
+                                    FareStructure:
+                                        type: object
+                                        properties:
+                                            ErrorDetails:
+                                                type: object
+                                                description: Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur.
+                                                properties:
+                                                    IE01:
+                                                        type: string
+                                                        example: General ordered input error                                  
                 401:
                     description: Unauthorized
                     content:
