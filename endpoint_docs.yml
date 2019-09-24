@@ -157,15 +157,6 @@ paths:
                                             example: "user is not authorized"
                 500:
                     description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                        error: 
-                                            type: string
-                                            description: Error Code
-                                            example: "user is not authorized"
 
     /flex-trip-prod/:
         post:
@@ -208,11 +199,11 @@ paths:
                                                 properties:
                                                     IE11:
                                                         type: string
-                                                        description: An example error code, refer to the error codes section for further details.
+                                                        description: : An example error code, refer to the error codes section for further details.
                                                         example: General Input Error.
                                                     IE24:
                                                         type: string
-                                                        description: An example error code, refer to the error codes section for further details.
+                                                        description: : An example error code, refer to the error codes section for further details.
                                                         example: Too many or too few travellers found.                                                                                            
                 401:
                     description: Unauthorized
@@ -232,21 +223,40 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                        error: 
-                                            type: string
-                                            description: Error Code
-                                            example: "user is not authorized"
+                                    FlexTrip:
+                                        type: object
+                                        description: Contains the JSON object of the response.
+                                        properties:
+                                            best_path:
+                                                type: array
+                                                description: 
+                                                example: []
+                                            total_cost:
+                                                type: float
+                                                description: Total cost of cheapest segments recommended, in currency specified.
+                                                example: 0
+                                            segments:
+                                                type: object
+                                                description: List of segments in the itinerary
+                                                example: {}
+                                            ErrorDetails:
+                                                type: object
+                                                description: Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur.
+                                                properties:
+                                                    CE01:
+                                                        type: string
+                                                        example: Failed to find flights
+                                            path_sequence:
+                                                type: array
+                                                description: An array of IATA codes representing the chronological order of your trip.
+                                                example: []
+                                            structure: 
+                                                type: array
+                                                description: 
+                                                example: [0, -2]
                 500:
                     description: Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                        error: 
-                                            type: string
-                                            description: Error Code
-                                            example: "user is not authorized"
+                                
               
 
     /pre-booking/:
