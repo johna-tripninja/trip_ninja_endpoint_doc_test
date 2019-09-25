@@ -165,31 +165,6 @@ paths:
                                                 example: "Flight(s) not found: Could not find all the flights required to make up this trip. Try changing dates, IATA codes, cabin class, etc." 
                 500:
                     description: Server Error
-    # Error Codes
-    <table>
-      <tr><td>IE01</td><td>Need minimum 2 destinations</td></tr>
-      <tr><td>IE02</td><td>Duplicate city in list</td></tr>
-      <tr><td>IE09</td><td>Can't run any queries for flight dates in the past</td></tr>
-      <tr><td>IE10</td><td>Incorrect city_type, expected one of ['C', 'A']</td></tr>
-      <tr><td>IE16</td><td>Please provide a PCC</td></tr>
-      <tr><td>IE17</td><td>Invalid carrier</td></tr>
-      <tr><td>IE19</td><td>Incorrect region, expected one of 'emea', 'apac', 'americas'</td></tr>
-      <tr><td>IE20</td><td>Incorrect provider, expected one of '1V','1G','1P','1A'</td></tr>
-      <tr><td>IE21</td><td>Wrong currency</td></tr>
-      <tr><td>IE22</td><td>Not a valid cabin option. expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'</td></tr>
-      <tr><td>IE23</td><td>Not a valid alliance. Expected one of *A, *S, *O</td></tr>
-      <tr><td>IE24</td><td>Travellers Type does not meet expected criteria. Should be a list having between 0 and 10 values</td></tr>
-      <tr><td>IE26</td><td>Exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one</td></tr>
-      <tr><td>IE27</td><td>Num_results should be an integer between 50 and 250</td></tr>
-      <tr><td>IE28</td><td>Refundable parameter must be boolean value true or false</td></tr>
-      <tr><td>IE29</td><td>Invalid Traveller type</td></tr>
-      <tr><td>IE30</td><td>Incorrect value for single_pnr, must be boolean</td></tr>
-      <tr><td>IE31</td><td>LCC token not associated with user</td></tr>
-      <tr><td>IE32</td><td>Incorrect value for include_itineraries, must be boolean</td></tr>
-      <tr><td>IE33</td><td>Stops must be one of 'any', 'direct', '1', '2'</td></tr>
-      <tr><td>IE34</td><td>Incorrect value for no_overnight_layovers, must be boolean</td></tr>
-      <tr><td>IE36</td><td>Invalid LCC name</td></tr>
-    <table>
 
     /flex-trip-prod/:
         post:
@@ -437,6 +412,32 @@ components:
     FareStructureResponse:
       title: Response
       type: object
+      description: 
+            # Error Codes
+            <table>
+            <tr><td>IE01</td><td>Need minimum 2 destinations</td></tr>
+            <tr><td>IE02</td><td>Duplicate city in list</td></tr>
+            <tr><td>IE09</td><td>Can't run any queries for flight dates in the past</td></tr>
+            <tr><td>IE10</td><td>Incorrect city_type, expected one of ['C', 'A']</td></tr>
+            <tr><td>IE16</td><td>Please provide a PCC</td></tr>
+            <tr><td>IE17</td><td>Invalid carrier</td></tr>
+            <tr><td>IE19</td><td>Incorrect region, expected one of 'emea', 'apac', 'americas'</td></tr>
+            <tr><td>IE20</td><td>Incorrect provider, expected one of '1V','1G','1P','1A'</td></tr>
+            <tr><td>IE21</td><td>Wrong currency</td></tr>
+            <tr><td>IE22</td><td>Not a valid cabin option. expected one of 'E' , 'PE', 'SE', 'BC','FC', 'PFC'</td></tr>
+            <tr><td>IE23</td><td>Not a valid alliance. Expected one of *A, *S, *O</td></tr>
+            <tr><td>IE24</td><td>Travellers Type does not meet expected criteria. Should be a list having between 0 and 10 values</td></tr>
+            <tr><td>IE26</td><td>Exclude_carriers, alliance and permitted_carriers are mutually exclusive - please choose one</td></tr>
+            <tr><td>IE27</td><td>Num_results should be an integer between 50 and 250</td></tr>
+            <tr><td>IE28</td><td>Refundable parameter must be boolean value true or false</td></tr>
+            <tr><td>IE29</td><td>Invalid Traveller type</td></tr>
+            <tr><td>IE30</td><td>Incorrect value for single_pnr, must be boolean</td></tr>
+            <tr><td>IE31</td><td>LCC token not associated with user</td></tr>
+            <tr><td>IE32</td><td>Incorrect value for include_itineraries, must be boolean</td></tr>
+            <tr><td>IE33</td><td>Stops must be one of 'any', 'direct', '1', '2'</td></tr>
+            <tr><td>IE34</td><td>Incorrect value for no_overnight_layovers, must be boolean</td></tr>
+            <tr><td>IE36</td><td>Invalid LCC name</td></tr>
+            <table>
 
       properties:
         trip:
