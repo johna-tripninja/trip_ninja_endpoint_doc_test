@@ -200,4 +200,4 @@ paths:
                                 $ref: '#/components/schemas/ProfileErrorCodes'
 
 
-components:s
+components:
