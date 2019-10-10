@@ -48,15 +48,6 @@ paths:
             summary: "Markup"
             description: |
                 Send an array of itineraries and we will return an array of id and markup pairs corresponding to each itinerary.
-                    <h2>Error Codes</h2>
-                    <table>
-                    <tr><td>400-1001</td><td>Invalid Input</td></tr>
-                    <tr><td>400-1002</td><td>cabin_class is not valid. Must be one of E, PE, BC, FC, PFC</td></tr>
-                    <tr><td>400-2001</td><td>Flight dates cannot be in the past</td></tr>
-                    <tr><td>400-2002</td><td>Arrival date must be after departure date</td></tr>
-                    <tr><td>400-3001</td><td>itinerary_reference does not exist</td></tr>
-                    <tr><td>400-3002</td><td>trip_id does not exist</td></tr>
-                    <table>
             operationId: Markup
             requestBody:
                 content:
