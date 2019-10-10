@@ -1,965 +1,520 @@
 openapi: "3.0.0"
 
 info:
-  version: "2.22.0"
-  title: Trip Ninja Endpoint Documentation
+  version: "1.0.0"
+  title: MCaaS Documentation
   description: |
-    <h2>Introduction</h2>
-    Trip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production servers
-    are to be used. Once ready for live use, access to the production servers will be provided. All search endpoints have both production
-    and pre-production endpoints - these correspond to the GDS’s production and pre-production services, and can be used as desired.<br  />
-    <h2>Trip Ninja API URLs</h2>
+    # Introduction
+    Trip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production url
+    is to be used. Once ready for live use, access to the production url will be provided. <br  />
 
-    Pre-Production: http://trip-ninja-api-preprod.us-east-2.elasticbeanstalk.com
+    Pre-Production URL: TODO
 
     For security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you
     will be using.
 
-    Before you start ensure that:<br  />
-        - IP addresses have been provided to be whitelisted for our servers.<br  />
-        - PCC / OfficeID emulation via Trip Ninja’s PCC/OfficeID has been set up.<br  />
-        - API username and password have been provided by Trip Ninja.<br  />
-
-    <h2>Authentication</h2>
+    # Authentication
     Trip Ninja uses Basic Authentication standards. Simply encode your username and password string using base64 and pass it in the
     authorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not
     shown.
 
-    Python Example:
+    Header Example:
 
     <pre>
-    import base64
-    auth = base64.b64encode("USERNAME:PASSWORD")
-    headers = {
-        'authorization': "Basic "+ auth,
-    }
-    response = requests.post(url, headers=headers, data=json.dumps(payload))
+        Content-Type: application/json
+        Authorization: Basic base64_password
     </pre>
-
   x-logo:
     url: 'https://s3.amazonaws.com/tn-api-docs/tripninja_logo_dev-01.png'
     altText: Trip Ninja logo
 
+tags:
+  - name: Markup Endpoints
+    description: <p>Set of markup endpoints to retrieve and update markups for requested itineraries. 
+                    <br>Below is a table of possible error codes that can be returned when hitting the markup(POST) endpoint.</p>
+               <h3>Markup Error Codes</h3>
+                    <table>
+                    <tr><td>400-1002</td><td>cabin_class is not valid. Must be one of E, PE, BC, FC, PFC</td></tr>
+                    <tr><td>400-2001</td><td>Flight dates cannot be in the past</td></tr>
+                    <tr><td>400-2002</td><td>Arrival date must be after departure date</td></tr>
+                    <table>
+  - name: Profile Endpoints
+    description: <p>Set of profile endpoints to allow user to notify evey time a certain action is performed.
+                    For example, allowing users to notify every time a booking has been cancelled. 
+                    <br>Below is a table of possible error codes that can be returned when hitting the profile endpoints.</p>
+                <table>
+                <h3>Profile Error Codes</h3>
+                <tr><td>400-3001</td><td>itinerary_reference does not exist</td></tr>
+                <tr><td>400-3002</td><td>trip_id does not exist</td></tr>
+                <table>
+
 servers:
-  - url: http://trip-ninja-api-preprod.us-east-2.elasticbeanstalk.com
-    description: Pre-Production server
+  - url: "Endpoint: "
+    description: ""
 
 paths:
-    /price-confirm-prod/:
+    /markup/:
         post:
-            summary: "Price Confirm"
-            description: Once the desired flights have been selected, call the price confirm endpoint to confirm their availability and prices.
-            operationId: PriceConfirm
+            tags: 
+                - Markup Endpoints
+            summary: "Markup" 
+            description: |
+                Send an array of itineraries and we will return an array of id and markup pairs corresponding to each itinerary.
+            operationId: Markup
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/PriceConfirmRequest'
-
-            responses:
-              200:
-                  description: Success
-                  content:
-                      application/json:
-                          schema:
-                              $ref: '#/components/schemas/PriceConfirmResponse'
-
-    /create-pnr/:
-        post:
-            summary: "Create Booking"
-            description: "When a trip is to be booked, send a request to the endpoint /create-pnr/ to create the Universal Record and associated PNR's for the trip. The booking will then be placed on the agency's ticketing queue."
-            operationId: "CreateBooking"
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateBooking'
+                            $ref: '#/components/schemas/MarkupPostRequest'
             responses:
                 200:
                     description: Success
                     content:
                         application/json:
                             schema:
-                                type: object
-                                properties:
-                                   result:
-                                          type: object
-                                          properties:
-                                                     locator: 
-                                                        type: string
-                                                        description: Unique Identifier of a Universal Record. *Travelport customers only*   
-                                                        example: 6D6RMG
-                                                     result: 
-                                                        type: string
-                                                        description: Success of the booking.
-                                                        example: "True"                                
-
-    /whitelabel-cancel/:
-        post:
-            summary: "Cancel Booking"
-            description: "To cancel a booking you have previously booked, report it to the Trip Ninja Service endpoint: “/whitelabel-cancel/”."
-            operationId: "CancelBooking"
+                                $ref: '#/components/schemas/MarkupPostResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MarkupOverrideErrorCodes'
+        patch:
+            tags: 
+                - Markup Endpoints
+            summary: "Markup Override"
+            description: |
+                This endpoint allows users to override the markup provided before.
+                <table>
+                <h3>Markup Override Error Codes</h3>
+                <tr><td>400-3001</td><td>itinerary_reference does not exist</td></tr>
+                <tr><td>400-3002</td><td>trip_id does not exist</td></tr>
+                <table>
+            operationId: MarkupOverride
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CancelRequest'
+                            $ref: '#/components/schemas/MarkupOverrideRequest'
             responses:
-                302:
-                    description: Found
+                200:
+                    description: Success
                     content:
                         application/json:
                             schema:
-                                type: object
-                                properties:
-                                    status:
-                                        type: string
-                                        description: True/false as to whether request to cancel was succesful.
-                                        example: "true"
-                                    response:
-                                        type: array
-                                        items: 
-                                            type: object
-                                            properties:
-                                                ProviderCode:
-                                                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus.
-                                                    type: string 
-                                                    example: "1V"
-                                                Cancelled: 
-                                                    type: boolean
-                                                    description: Shows whether booking is cancelled or not.
-                                                    example: True
-                                                CreatedDate:
-                                                    type: string 
-                                                    description: The date when the booking was created.
-                                                    example: "2019-09-16T12:14:03.151+00:00"
-                                                ModifiedDate: 
-                                                    type: string
-                                                    description: The date when the booking was last modified.
-                                                    example: "2019-09-16T15:21:34.913+00:00"
-                                                LocatorCode: 
-                                                    type: string
-                                                    description: Unique Identifier of a Universal Record. *Travelport customers only*
-                                                    example: "TNTXR0"
+                                $ref: '#/components/schemas/MarkupOverrideResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MarkupOverrideErrorCodes'
 
-    /ticketing/:
-            post:
-                summary: "Report Ticketing"
-                description: "To report a booking that has been ticketed, use this endpoint '/ticketing/'."
-                operationId: "TicketBooking"
-                requestBody:
+    /profile/price/:
+        patch:
+            tags:
+                - Profile Endpoints
+            summary: "Pricing Profile"
+            description: |
+                This endpoint allows users to notify every time a price confirmation has been made.
+            operationId: PricingProfile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileRequest'
+            responses:
+                200:
+                    description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/TicketBooking'
-                responses:
-                    302:
-                        description: Found
-                        content:
-                            application/json:
-                                schema:
-                                    type: object
-                                    properties:
-                                        status: 
-                                            type: string
-                                            description: True/false as to whether request to ticket was succesful.
-                                            example: "true"
-                                        response:
-                                            type: array
-                                            items: 
-                                                type: object
-                                                properties:
-                                                    ProviderCode:
-                                                        description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                                                        type: string 
-                                                        example: "1V"
-                                                    Cancelled: 
-                                                        type: boolean
-                                                        description: Shows whether booking is cancelled or not.
-                                                        example: True
-                                                    CreatedDate:
-                                                        type: string 
-                                                        description: The date when the booking was created.
-                                                        example: "2019-09-16T12:14:03.151+00:00"
-                                                    ModifiedDate: 
-                                                        type: string
-                                                        description: The date when the booking was last modified.
-                                                        example: "2019-09-16T15:21:34.913+00:00"
-                                                    LocatorCode: 
-                                                        type: string
-                                                        description: Unique Identifier of a Universal Record. *Travelport customers only*
-                                                        example: "TNTXR0"
+                                $ref: '#/components/schemas/ProfileResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileErrorCodes'
+
+    /profile/book/:
+        patch:
+            tags:
+                - Profile Endpoints
+            summary: "Booking Profile"
+            description: |
+                This endpoint allows users to notify every time a trip has been booked.
+            operationId: BookingProfile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileErrorCodes'
+    /profile/cancel/:
+        patch:
+            tags:
+                - Profile Endpoints
+            summary: "Booking Cancellation Profile"
+            description: |
+                This endpoint allows users to notify every time a booking has been cancelled.
+            operationId: BookingCancellationProfile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileErrorCodes'
+
+    /profile/ticket/:
+        patch:
+            tags:
+                - Profile Endpoints
+            summary: "Ticketing Profile"
+            description: |
+                This endpoint allows users to notify every time a trip has been ticketed.
+            operationId: TicketingProfile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfileErrorCodes'
 
 
 components:
   schemas:
-    PriceConfirmResponse:
-      title: Response
-      type: object
-      properties:
-        total_price:
-            description: Total price of cheapest segments recommended, in currency specified.
-            type: float
-            example: 161.23
-        error_details:
-            description: "Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur."
-            type: array
-            example: []
-        taxes:
-            type: float
-            description: Tax price of the segment.
-            example: 79.23
-        confirmation_id:
-            type: string
-            description: "A unique key used to indicate a successful booking."
-            example: "5675057ca2cd084edbd498f960b9a202cb530202"
-        fees:
-            type: float
-            description: Fees for the segment *Travelport customers only*
-            example: 0
-        trip:
-            type: object
-            description: Contains the JSON object provided as the request.
-            properties:
-                currency:
-                    type: string 
-                    example: "USD"
-                    description: Currency to be used for provider query requests in three digit code.
-                endpoint: 
-                    type: string
-                    example: "preprod"
-                    description: Identify server to send request, values include prod or preprod.
-                markup: 
-                    type: float
-                    example: 0
-                    description: Markup amount specified by Trip Ninja. This can be found in the trip search response.
-                pcc: 
-                    type: string
-                    example: "2G3C"
-                    description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-                provider: 
-                    type: string
-                    example: "1V"
-                    description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                region: 
-                    type: string
-                    example: "americas"
-                    description: Parameter toggles which travelport endpoint you hit. *Travelport Only*
-                selected_segments: 
-                    $ref: '#/components/schemas/selected_segments'
-                total_price: 
-                    type: float
-                    example: 127.53
-                    description: Total cost of cheapest segments recommended, in currency specified.
-                traveller_list: 
-                    type: array
-                    example: ["ADT"]
-                    description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’.
-                trip:
-                    type: object
-                    properties:
-                        ErrorDetailsDict:
-                            type: object 
-                            description: "Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur."
-                            example: {}
-                        pcc: 
-                            type: string
-                            description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-                            example: "2G3C"
-                        alliance:
-                            type: string
-                            description: Parameter toggles the preferred alliance for your query. If there are results containing flights from the given alliance, only flights from that alliance will be returned. Otherwise it will return flights from any alliance. *Travelport Only*
-                            example: "*A"
-                            required: false
-                        cabin:
-                            type: string
-                            description: Cabin class e.g economy, business, first class.
-                            example: E
-                        cabin_class:
-                            type: string
-                            description: Cabin class for the entire segment *Travelport customers only*
-                            example: E
-                        currency:
-                                type: string 
-                                description: Currency to be used for provider query requests in three digit code.
-                                example: "USD"
-                        departure_date: 
-                            type: string
-                            description: "Departure date for this leg, format: YYYY-MM-DD. Any trailing characters after do not affect the API’s functionality."
-                            example: "2019-10-09"
-                        end:
-                            type: string
-                            description: Used to return to a different city than the departure_city, if none specified will default to always returning to the departure_city.
-                            example: NYC
-                        end_type:
-                            type: string
-                            description: Upper-case letter “C” for city or “A” for airport
-                            example: C
-                        endpoint: 
-                            type: string
-                            description: Identify server to send request, values include prod or preprod.
-                            example: "preprod"
-                        exclude_carriers:
-                            type: array
-                            description: Parameter toggles a list of carriers to exclude from the query results. This option can not be applied together with the alliance option. They are mutually exclusive.
-                            example: []
-                            required: false
-                            items:
-                                type: string
-                        from_city: 
-                            type: string
-                            description: Departure city/airport IATA code.
-                            example: "YHZ"
-                        from_city_full: 
-                            type: string
-                            description: Full name of departing city/airport.
-                            example: "Halifax, NS, Canada | YHZ"
-                        id:
-                            type: string
-                            description: A unique key used for identification and when booking a trip.
-                            example: 687d1237857c65c70fe9eb175d23d6631f20bafa       
-                        max_cache:
-                            type: integer              
-                            default: 24
-                            description: |
-                                Hours to retain data queried from provider to be cached for use in future requests.
-                                Higher values result in:<br  />
-                                    1) faster queries as more data is available for re-use<br  />
-                                    2) lower look-to-book ratios from the GDS perspective which may lower costs<br  />
-                                    3) less accurate pricing data which may cause issues in AirPriceReq when ticketing.<br  />
-                                Minimum value is 0.04 hours, maximum value is 720 hours.
-                                Please discuss with your Trip Ninja Account Manager if you need
-                                access to caching outside these limits.
-                            required: false
-                        no_overnight_layovers:
-                            type: boolean
-                            description: Toggles whether to return results with no overnight layovers *Travelport Only*
-                            default: false
-                        num_results:
-                            type: integer
-                            description: Parameter sets the number of segments in the response *Travelport Only*
-                            default: 50
-                        permitted_carrier:
-                            type: string
-                            description: Toggles permitted carriers in GDS request *Travelport Only*
-                            example: AC
-                            required: false
-                        provider: 
-                            type: string
-                            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                            example: 1V
-                            required: true 
-                        refundable:
-                            type: boolean
-                            description: Parameter toggles query to only return fully refundable flights. *Travelport Only*
-                            default: false
-                        region: 
-                            type: string
-                            description: Parameter toggles which travelport endpoint you hit Travelport Only
-                            example: "americas"
-                        schema:
-                            type: integer
-                            description: Toggles which Travelport schema version to use. *Travelport Only*
-                            default: 40
-                            required: false
-                        source: 
-                            type: string
-                            description: Url source of request e.g whitelabel.tripninja.io
-                            example: "whitelabel.tripninja.io"
-                        start: 
-                            type: string
-                            description: Start city/airport IATA code of leg.
-                            example: "YHZ"
-                        start_type: 
-                            type: string
-                            description: "Upper-case letter “C” for city or “A” for airport"
-                            example: "A"
-                        stops:
-                            type: string
-                            description: Toggles number of stop for GDS request *Travelport Only*
-                            default: "Any"
-                        time_value:
-                            type: integer
-                            description: |
-                                This parameter helps set the value of a passenger’s time, in
-                                terms of the currency selected. It is used to trade off flight
-                                prices versus flight durations. The parameter is in units of
-                                [currency]/hour. Flight durations are calculated as the difference
-                                in minutes from the arrival time of the last flight in a leg to
-                                the departure time of the first flight in the leg.
-                                True Cost of Flight = [Flight Price] * [time_value/60] * [Flight Duration]
-                                The itinerary which provides the lowest True Cost of Flight is
-                                what is returned in the response. If you provide a time_value
-                                of 0 or do not provide the parameter, it will sort by price.
-                            default: 0
-                            required: false
-                        to_city: 
-                            type: string
-                            description: End city/airport IATA code of leg.
-                            example: "NYC"
-                        to_city_full: 
-                            type: string
-                            description: Full name of end city/airport.
-                            example: "New York, NY, USA - All Airports | NYC"
-                        traveller_list: 
-                            type: array
-                            description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
-                            example: ["ADT"]
-                        travellers:
-                            type: integer
-                            description: The number of travellers for a booking.
-                            example: 1
-                        user_email: 
-                            type: string
-                            description: The user's email address.
-                            example: "testing1@tripninja.io"
-                trip_id: 
-                    type: string
-                    description: A unique key used for identification and when booking a trip.
-                    example: "687d1237857c65c70fe9eb175d23d6631f20bafa"
-                trip_type: 
-                    type: string
-                    description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
-                    example: "OneWay"
-    
-    selected_segments:
-        allOf:
-          - $ref: '#/components/schemas/PriceConfirmResponse/properties/trip/properties'
-          - type: array
-            description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
-            required:
-                - segment_id
-                - plating_carrier
-                - fare_into_ref
-                - passenger_type
-                - fare_rule_key
-                - fare_basis_code
-            items:
-                type: object
-                description: JSON object of segments sorted by weight. Get the [0] index of each segment list for the recommended segment. The key can represent a one-way or an open-jaw segment. One-ways are represented like “0”,”1”,”2”,”3”,”4”, etc, representing the index of the flight in the trip chronologically. Open-jaws are represented in pairs like “01”, “04”, “23”, etc where ‘Group0’ will go in the first part and ‘Group1’ in the second. For example, “23” - ‘Group0’ would go at index 2 and ‘Group1’ at index 3 chronologically.
-                properties:
-                    additional_details:
-                        type: object
-                        description: Additional details *in development for Travelport customers*
-                    baggage:
-                        type: object
-                        description: Contains baggage information *Travelport customers only*
-                        properties:
-                            number_of_pieces:
-                                type: integer
-                                description: Number of bags allowed.
-                                example: 0
-                    weight:
-                        type: float
-                        description: Weight of the segment (time-value considered).
-                        example: 96.9
-                    weight_with_markup:
-                        type: float
-                        description: "Weight of the segment including markup (time-value considered)."
-                        example: 1
-                    price:
-                        type: float
-                        description: Price of the segment (fare and tax included).
-                        example: 89.4
-                    base_price:
-                        type: float
-                        description: Base price of the segment (tax excluded)
-                        example: 55.0
-                    taxes:
-                        type: float
-                        description: Tax price of the segment
-                        example: 34.4
-                    fees:
-                        type: float
-                        description: Fees for the segment *Travelport customers only*
-                        example: 0
-                    cabin_class:
-                        type: string
-                        description: Cabin class for the entire segment *Travelport customers only*
-                        example: Economy
-                    fare_basis_code:
-                        type: string
-                        description: Fare Basis Code for the segment.
-                        example: "QUSDSI0E"
-                    fare_rule_key:
-                        type: string
-                        description: Fare rule key for the segment
-                        example:   gws-eJxNjs0KwyAQhB8mzH02QdLeFPNzEaGYEnLp+z9GR02hC7qz+w2j3vuR9uRjov+vAZ\/hLMjvCGSMOmk\/4WQjTNMFkoZX4cI1FdwhFeWGe7dmjC5Oati4WUe1cLU77UGsJ7fM+jSq1AI\/EQ7JHJZjjTS5ZnO8EWfop1+XbyuD
-                    fare_info_ref:
-                        type: string
-                        description: Fare Info reference for this segment
-                        example: 3RxQ6ylJ0BKAhQAbnbAAAA==
-                    private_fare:
-                        type: boolean
-                        description: True if segment is a private fare, otherwise False *Travelport customers only*.
-                        example: false
-                    segment_id:
-                        type: string
-                        description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-                        example: "b546cdcc82c872b7a5b1e54cc69a7b28ac6aeee2"
-                    transp_time:
-                        type: float
-                        description: Transportation time for the segment.
-                        example: 75
-                    segment_source:
-                        type: string
-                        description: GDS or LCC provider source for segment. Only shown with ‘include_lcc’ request parameter enabled.
-                    flight_details:
-                        type: object
-                        description: Detailed information regarding the flight.
-                        properties:
-                            WS3485: 
-                                type: object
-                                description: Specific flight details.
-                                example: {distance: null, origin_terminal: null, automated_checkin: false, in_flight_services: ["Non-smoking"], meals: [], on_time_performance: null}
-                            markup: 
-                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response.
-                                type: float
-                                example: 0
-                            passenger_type: 
-                                type: string
-                                description: Passagner type, values include 'ADT', 'MIL', 'CHD' and 'INF'.
-                                example: "ADT"
-                            plating_carrier: 
-                                type: string
-                                description: The airline that a ticket has been issued on behalf of.
-                                example: "WS"
-                            price: 
-                                type: float
-                                description: Price of the segment (fare and tax included).
-                                example: 0
-                            price_with_markup:
-                                type: float 
-                                description: Price of the segment including markup (fare and tax included).
-                                example: 0
-                            private_fare: 
-                                type: boolean
-                                description: True if segment is a private fare, otherwise False *Travelport customers only*
-                                example: false
-                            segment_id: 
-                                type: string
-                                description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-                                example: "24ca530611e13af32e7231f97e0859ae7d4e8ecb"
-                            segment_source: 
-                                type: string
-                                description: String if one-way, Array of 2 Strings if open-jaw. Used for booking.
-                                example: "travelport"
-                            taxes:
-                                type: float
-                                description: Tax price of the segment
-                                example: 75.3
-                            transp_time: 
-                                type: integer
-                                description: Transportation time for the segment
-                                example: 425
-                            weight: 
-                                type: float
-                                description: Weight of the segment (time-value considered).
-                                example: 239
-                            weight_with_markup: 
-                                type: float
-                                description: Weight of the segment including markup (time-value considered).
-                                example: 1
-                    Group0:
-                        type: object
-                        description: One-way segment or first part of open-jaw segment
-                        properties:
-                            segment_origin_full:
-                                type: string
-                                description: "Origin of the segment."
-                                example: "London, United Kingdom"
-                            segment_destination_full:
-                                type: string
-                                description: "Destination of the segment."
-                                example: "Paris, France"
-                            key:
-                                type: string
-                                description: Segment_id for the group
-                                example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
-                            segment_details:
-                                type: object
-                                description: Contains information about the segment legs, and total travel time
-                                properties:
-                                    segment_time_w_connections:
-                                        type: float
-                                        description: segment travel time accounting for time between flights
-                                        example: 75.0
-                                    leg_details:
-                                        type: object
-                                        description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
-                                        properties:
-                                            Origin:
-                                                type: string
-                                                description: IATA code of the leg origin
-                                                example: LHR
-                                            DepartureTime:
-                                                type: string
-                                                description: Departure time of the leg
-                                                example: "2019-04-05T13:25:00.000+01:00"
-                                            Destination:
-                                                type: string
-                                                description: IATA code of the leg destination
-                                                example: CDG
-                                            FlightNumber:
-                                                type: string
-                                                description: Leg's flight number
-                                                example: 111
-                                            DestinationName:
-                                                type: string
-                                                description: Full name of the leg destination
-                                                example: "Paris, France (CDG)"
-                                            BookingCode:
-                                                type: string
-                                                description: The airline booking code that describes the flight cabin class
-                                                example: X
-                                            cabin_class:
-                                                type: string
-                                                description: Leg’s cabin class *Travelport customers only*
-                                                example: Economy
-                                            Carrier:
-                                                type: string
-                                                description: Leg's carrier code
-                                                example: BA
-                                            Key:
-                                                type: string
-                                                description: Leg’s string identifier
-                                                example: "oHzo6pBAAA/B1d6hPLAAAA=="
-                                            ArrivalTime:
-                                                type: string
-                                                description: Arrival time of the leg
-                                                example: "2019-04-05T15:40:00.000+02:00"
-                                            OriginName:
-                                                type: string
-                                                description: Full name of the leg origin
-                                                example: "London, United Kingdom (LHR)"
-                                            FlightTime:
-                                                type: integer
-                                                description: Flight duration in minutes
-                                                example: 75
-                    Group1:
-                        type: object
-                        description: |
-                            Second part of open-jaw segment
-                        properties:
-                            segment_origin_full:
-                                type: string
-                                description: "Origin of the segment."
-                                example: "Paris, France"
-                            segment_destination_full:
-                                type: string
-                                description: "Destination of the segment."
-                                example: "Montreal, Canada"
-                            key:
-                                type: string
-                                description: Segment_id for the group
-                                example: "14c9e2e5c95a5bf0f9f7712de24348e6aba88c32"
-                            segment_details:
-                                type: object
-                                description: Contains information about the segment legs, and total travel time
-                                properties:
-                                    segment_time_w_connections:
-                                        type: float
-                                        description: segment travel time accounting for time between flights
-                                        example: 1730.0
-                                    leg_details:
-                                        type: object
-                                        description: A list of legs, each leg includes origin, destination, flight number, departure time and arrival time
-                                        properties:
-                                            Origin:
-                                                type: string
-                                                description: IATA code of the leg origin
-                                                example: CDG
-                                            DepartureTime:
-                                                type: string
-                                                description: Departure time of the leg
-                                                example: "2019-04-07T13:15:00.000+02:00"
-                                            Destination:
-                                                type: string
-                                                description: IATA code of the leg destination
-                                                example: YUL
-                                            FlightNumber:
-                                                type: string
-                                                description: Leg's flight number
-                                                example: 475
-                                            DestinationName:
-                                                type: string
-                                                description: Full name of the leg destination
-                                                example: "Montreal, PQ, Canada (YUL)"
-                                            BookingCode:
-                                                type: string
-                                                description: The airline booking code that describes the flight cabin class
-                                                example: X
-                                            cabin_class:
-                                                type: string
-                                                description: Leg’s cabin class *Travelport customers only*
-                                                example: Economy
-                                            Carrier:
-                                                type: string
-                                                description: Leg's carrier code
-                                                example: TS
-                                            Key:
-                                                type: string
-                                                description: Leg’s string identifier
-                                                example: "oHzo6pBAAA/B1d6hPLAAAA=="
-                                            ArrivalTime:
-                                                type: string
-                                                description: Arrival time of the leg
-                                                example: "2019-04-07T15:10:00.000-04:00"
-                                            OriginName:
-                                                type: string
-                                                description: Full name of the leg origin
-                                                example: "Paris, France (CDG)"
-                                            FlightTime:
-                                                type: integer
-                                                description: Flight duration in minutes
-                                                example: 475        
-    
-    PriceConfirmRequest:
-      title: Request
-      type: object
-      required:
-          - trip_id
-          - selected_segments
-          - trip_type
-          - currency
-          - markup
-          - pcc
-          - provider
-          - region
-          - total_price
-          - traveller_list
-      properties:
-        trip_id:
-            description: A unique key used for identification and when booking a trip.
-            required: true
-            type: string
-            example: "129a4045ef84edc4c0d5f0b1b28a906495d3f966"
-        selected_segments:
-            $ref: '#/components/schemas/selected_segments'
-        trip_type:
-            description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
-            required: True
-            type: string
-            example: OneWay 
-        region:
-            description: Parameter toggles which travelport endpoint you hit *Travelport Only*
-            required: true  
-            type: string
-            example: americas
-        total_price:
-            description: Total price of cheapest segments recommended, in currency specified.
-            required: true 
-            type: float
-            example: 161.23
-        pcc:
-            description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-            required: true
-            type: string
-            example: 2G3C
-        provider: 
-            description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-            required: true 
-            type: string
-            example: 1V
-        traveller_list: 
-            description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
-            required: true 
-            type: array
-            example: ["ADT"]
-        currency:
-            description: Currency to be used for provider query requests in three digit code.
-            example: USD
-            required: true
-            type: string
-        markup: 
-            description: Markup amount specified by Trip Ninja. This can be found in the trip search response
-            required: true 
-            type: float
-            example: 0
-    
-    CancelRequest:
+      MarkupPostRequest:
+          title: MarkupPostRequest
+          type: object
+          required:
+              - currency
+              - source
+              - country_code
+              - passengers
+              - itineraries
+              - type(new)
+          properties:
+              currency:
+                  type: string
+                  description: "Currency that itineraries are priced in"
+                  example: "USD"
+              source:
+                  type: string
+                  description: "Metasearch source or on-site search source."
+                  example: "skyscanner"
+              country_code:
+                  type: string
+                  description: "Country code of search site"
+                  example: "US"
+              passengers:
+                  type: array
+                  description: "Number of each passenger type. No need to pass types you aren't using."
+                  example: [{"type":"ADT","count":3},{"type":"CHD","count":1},]
+                  items:
+                      type: object
+                      required:
+                          - type
+                          - count
+                      properties:
+                          type:
+                              type: string
+                              description: "Passenger Type"
+                              example: "ADT"
+                          count:
+                              type: int
+                              description: "number of passenger of type"
+                              example: 2
+              os:
+                  type: string
+                  required: false
+                  description: "Operating system of user. Desktop/mobile/android/iOS."
+                  example: "iOS"
+              itineraries:
+                  description: "Array of itineraries."
+                  required: true
+                  type: array
+                  items:
+                      type: object
+                      required:
+                          - reference
+                          - flights
+                          - base_price
+                          - taxes
+                          - fees
+                          - price_before_markup
+                          - fare_type
+                          - gds
+                          - cabin
+                          - operating_airline
+                      properties:
+                          reference:
+                              type: integer
+                              description: "Itinerary reference"
+                              example: 1
+                          base_price:
+                              type: float
+                              description: "Base price of flights (taxes and fees not included)."
+                              example: 260.43
+                          taxes:
+                              type: float
+                              description: "Taxes on flight."
+                              example: 28.50
+                          fees:
+                              type: float
+                              description: "Fees on flight."
+                              example: 10.40
+                          price_before_markup:
+                              type: float
+                              description: "Total price of flight (base_price, taxes and fees included)."
+                              example: 299.33
+                          gds:
+                              type: string
+                              description: "GDS source of the flight."
+                              example: "travelport"
+                          cabin:
+                              type: string
+                              enum: [E, PE, BC, FC, PFC]
+                              description: "Cabin class for the itinerary."
+                              example: E
+                          operating_airline:
+                              type: string
+                              description: "Airline operating this itinerary."
+                              example: "AC"
+                          flights:
+                              description: "Array of flights that make up an itinerary."
+                              required: true
+                              type: array
+                              items:
+                                  type: object
+                                  required:
+                                      - origin
+                                      - destination
+                                      - departure_date
+                                      - arrival_date
+                                      - cabin
+                                      - carrier
+                                      - flight_number
+                                      - booking_code
+                                  properties:
+                                      origin:
+                                          type: string
+                                          minLength: 3
+                                          maxLength: 3
+                                          description: "IATA code of origin location."
+                                          example: "JFK"
+                                      destination:
+                                          type: string
+                                          minLength: 3
+                                          maxLength: 3
+                                          description: "IATA code of destination location."
+                                          example: "LGW"
+                                      departure_date:
+                                          type: string
+                                          format: date-time
+                                          description: "Departure date and time with timezone."
+                                          example: "2019-11-05T07:00:00.000-08:00"
+                                      arrival_date:
+                                          type: string
+                                          format: date-time
+                                          description: "Arrival date and time with timezone."
+                                          example: "2019-11-08T07:00:00.000-08:00"
+                                      cabin:
+                                          type: string
+                                          description: "Cabin class code of flight."
+                                          example: "E"
+                                      carrier:
+                                          type: string
+                                          minLength: 2
+                                          maxLength: 2
+                                          description: "Airline carrier of the flight."
+                                          example: "AC"
+                                      flight_number:
+                                          type: integer
+                                          description: "Flight number."
+                                          example: 530
+                                      booking_code:
+                                          type: string
+                                          description: "Booking code of flight."
+                                          example: "X"
+
+      MarkupPostResponse:
+          title: Response
+          type: object
+          properties:
+              trip_id:
+                  type: string
+                  description: Unique ID for the trip.
+                  example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
+              itineraries:
+                  type: array
+                  description: Contains JSON objects of markup and itinerary ID's.
+                  items:
+                      type: object
+                      required:
+                          - reference
+                          - markup
+                      properties:
+                          reference:
+                              type: integer
+                              description: "Itinerary Reference"
+                              example: 1
+                          markup:
+                              type: float
+                              description: "Markup amount for itinerary."
+                              example: 5.43
+
+      ProfileRequest:
         title: Request
         type: object
         required:
             - trip_id
-            - endpoint
+            - itinerary_reference
         properties:
             trip_id:
                 type: string
-                description: Trip ID returned in search response
-                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
-            endpoint:
-                type: string
-                description: Identify server to send request, values include prod or preprod.
-                example: prepod
-    
-    CreateBooking:
+                description: This is a unique identifier for the trip which is returned in markup(post) call.
+                example: 12387654283
+            itinerary_reference:
+                type: integer
+                description: |
+                    This is the itinerary identifier which price confirm is performed, and is returned on the
+                    markup(post) call at the itinerary level.
+                example: 1
+      BookingCancellationProfileRequest:
         title: Request
         type: object
         required:
-            - queue
-            - trip
-            - customers
-            - billing
-            - info
-            - ticketed
+            - trip_id
+            - itinerary_reference
+            - canceled
         properties:
-            queue:
+            trip_id:
                 type: string
-                description: Ticketing queue on which to place the PNR
-                example: "01"
-            trip:
-                type: object
-                description: Contains the trip details as a JSON Object.
-                properties:
-                    total_price:
-                        description: Total price of cheapest segments recommended, in currency specified.
-                        type: float
-                        example: 382.93
-                    ErrorDetails:
-                        description: "Usually an empty string, but will contain a helpful message if something goes wrong! Listed inside are the possible input error codes that can occur."
-                        type: array
-                        example: []
-                    taxes:
-                        type: float
-                        description: Tax price of the segment
-                        example: 162.93
-                    confirmation_id:
-                        type: string
-                        description: A unique key used to indicate a successful booking.
-                        example: aacdf5c8bd8cda2543d0a874090c004bab9c3207
-                    fees:
-                        type: float
-                        description: Fees for the segment *Travelport customers only*
-                        example: 0
-                    trip:
-                        type: object
-                        properties: 
-                            currency:
-                                type: string 
-                                example: "USD"
-                                description: Currency to be used for provider query requests in three digit code.
-                            endpoint: 
-                                type: string
-                                example: "preprod"
-                                description: Identify server to send request, values include prod or preprod.
-                            markup: 
-                                type: float
-                                example: 0
-                                description: Markup amount specified by Trip Ninja. This can be found in the trip search response
-                            pcc: 
-                                type: string
-                                example: "2G3C"
-                                description: PCC/OfficeID to emulate transactions under. Must have emulation enabled for the relevant Service Bureau PCC used by Trip Ninja to conduct queries. Please contact Trip Ninja to get this set up.
-                            provider: 
-                                type: string
-                                example: "1V"
-                                description: Fare provider to use.<br  />“1V” - Apollo, “1G” - Galileo, “1P” - Worldspan, “1A” - Amadeus
-                            region: 
-                                type: string
-                                example: "americas"
-                                description: Parameter toggles which travelport endpoint you hit Travelport Only
-                            selected_segments: 
-                                $ref: '#/components/schemas/selected_segments'
-                            total_price: 
-                                type: float
-                                example: 382.93
-                                description: Total cost of cheapest segments recommended, in currency specified.
-                            traveller_list: 
-                                type: array
-                                example: ["ADT"]
-                                description: Array of passenger types, values include ‘ADT’, ’MIL’, ’CHD’ and ‘INF’
-                            trip_id: 
-                                    type: string
-                                    description: A unique key used for identification and when booking a trip.
-                                    example: "5e259d35a6efc66a83b613291a9ab9c2749117bd"
-                            trip_type: 
-                                type: string
-                                description: Trip types, values include "OneWay", "RoundTrip", "FlexTrip" and "FareStructure"
-                                example: "FlexTrip"
-                            path_sequence:
-                                description: An array of IATA codes representing the chronological order of your trip. Required for multi-city trips.
-                                type: array
-                                example: [ "YHZ","NYC", "YTO", "YHZ" ]
-                    total_price_difference:
-                        type: float
-                        description: Difference in price between the original ticket and the ticket available for booking.
-                        example: 0
-                    additional_charges:
-                        type: float
-                        description: Represents any additional charges added to the booking.
-                        example: 162.93
-                    markup_visible:
-                        type: boolean
-                        description: Toggles whether or not to show markups.
-                        example: false
-            customers:
-                description: "An array of customer details."
-                required: true
+                description: This is a unique identifier for the trip which is returned in markup(post) call.
+                example: 12387654283
+            itinerary_reference:
+                type: integer
+                description: |
+                    This is the itinerary identifier which price confirm is performed, and is returned on the
+                    markup(post) call at the itinerary level.
+                example: 1
+            canceled:
+                type: boolean
+                description: Determin if the booking was canceled
+                example: true
+      ProfileResponse:
+        title: Response
+        type: object
+        properties:
+            status:
+                type: string
+                description: status code
+                example: 200
+
+      ProfileErrorCodes:
+        title: Error Codes
+        type: object
+        properties:
+            status:
+                type: string
+                description: status code
+                example: 400-3001
+            errors:
                 type: array
+                description: List of errors
                 items:
                     type: object
                     properties:
-                        title:
+                        description:
                             type: string
-                            description: "The customer's title, values include 'Mr', 'Mrs', 'Ms'"
-                            example: "Mr"
-                        first:
+                            description: error description
+                            example: invalid itinerary ID
+                        more_info:
                             type: string
-                            description: "The customer's first name."
-                            example: FirstName
-                        last:
-                            type: string
-                            description: "The customer's last name."
-                            example: LastName
-                        dob:
-                            type: string
-                            description: "The customer's date of birth."
-                            example: "2005-03-10T04:00:00.000Z"
-                        phone:
-                            type: string
-                            description: "The customer's phone number."
-                            example: 9022225555
-                        country:
-                            type: string
-                            description: "The customer's passport country of issue."
-                            example: "AZ"
-                        type:
-                            type: string
-                            description: "The customer's passenger type. Values include 'ADT', 'MIL', 'CHD' and 'INF'."
-                            example: "ADT"
-            billing:
-                type: object
-                description: Billing information for the booking.
-                properties:
-                    air_transportation_charges:
-                        type: float
-                        description: Air transportation charges associated with the ticket. 
-                        example: 220
-                    currency:
-                        type: string 
-                        example: "USD"
-                        description: Currency to be used for provider query requests in three digit code.
-                    email:
-                        type: string
-                        description: The billing email address.
-                        example: anEmail@email.com
-                    email_confirm:
-                        type: string
-                        description: Confirmation of the billing email address.
-                        example: anEmail@email.com
-            ticketed: 
-                type: boolean
-                description: Set true to add PNR to ticketing queue.
-                example: true                       
-    
-    TicketBooking:
+                            description: url to documentation for more information on the requirements
+                            example: mcaas/docs/errors/3001
+      MarkupOverrideRequest:
         title: Request
         type: object
         required:
             - trip_id
+            - itinerary_reference
         properties:
             trip_id:
                 type: string
-                description: Trip ID returned in search response
-                example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
+                description: This is a unique identifier for the trip which is returned in markup(post) call.
+                example: 12387654283
+            itinerary_reference:
+                type: integer
+                description: |
+                    This is the itinerary identifier which price confirm is performed, and is returned on the
+                    markup(post) call at the itinerary level.
+                example: 1
+      MarkupOverrideResponse:
+        title: Response
+        type: object
+        properties:
+            status:
+                type: string
+                description: status code
+                example: 200
+
+      MarkupOverrideErrorCodes:
+        title: Error Codes
+        type: object
+        properties:
+            status:
+                type: string
+                description: status code
+                example: 400-3001
+            errors:
+                type: array
+                description: List of errors
+                items:
+                    type: object
+                    properties:
+                        description:
+                            type: string
+                            description: error description
+                            example: invalid itinerary ID
+                        more_info:
+                            type: string
+                            description: url to documentation for more information on the requirements
+                            example: mcaas/docs/errors/3001
