@@ -46,8 +46,10 @@ info:
 tags:
     - name: Airline Incentives Endpoints
       description: The endpoints for creating, reading, updating, and deleting Airline Incentive records.
-    - name: Data Source Endpoints
-      description: The endpoints for creating, reading, updating, and deleting Data Source records.
+    - name: Data Source Incentive Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Data Source Incentive records.
+    - name: Data Source Cost Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Data Source Cost records.
     - name: Attachment Revenue Endpoints
       description: The endpoints for creating, reading, updating, and deleting Attachment Revenue records.
     - name: Metasearch Cost Endpoints
@@ -189,7 +191,7 @@ paths:
     /incentive/datasource/:
         get:
             tags:
-                - Data Source Endpoints
+                - Data Source Incentive Endpoints
             summary: "List Data Source Incentives"
             description: |
                 Get list of incentive contracts for GDS and other datasources
@@ -203,7 +205,7 @@ paths:
                                 $ref: '#/components/schemas/GetGDSIncentiveResponse'
         post:
             tags:
-                - Data Source Endpoints
+                - Data Source Incentive Endpoints
             summary: "Create Data Source Incentive"
             description: |
                 Create an incentives contract for a GDS or any other datasource
@@ -237,7 +239,7 @@ paths:
                     type: string
                 description: reference ID
             tags:
-                - Data Source Endpoints
+                - Data Source Incentive Endpoints
             summary: "Update Data Source Incentive"
             description: |
                 Update a Data Source incentives contract. 
@@ -269,7 +271,7 @@ paths:
                     type: string
                 description: reference ID
             tags:
-                - Data Source Endpoints
+                - Data Source Incentive Endpoints
             summary: "Delete Data Source Incentive"
             description: |
                 Delete a Data Source incentives contract. 
@@ -399,7 +401,7 @@ paths:
     /cost/datasource/:
         get:
             tags:
-                - Data Source Endpoints     
+                - Data Source Cost Endpoints     
             summary: "List Data Source Costs"
             description: |
                 list cost contracts for GDS and other data sources
@@ -413,7 +415,7 @@ paths:
                                 $ref: '#/components/schemas/GetDataSourceCostResponse'
         post:
             tags:
-                - Data Source Endpoints  
+                - Data Source Cost Endpoints  
             summary: "Create Data Source Cost"
             description: |
                 Create a cost contract for GDS or any other datasource
@@ -447,7 +449,7 @@ paths:
                     type: string
                 description: reference ID
             tags:
-                - Data Source Endpoints  
+                - Data Source Cost Endpoints  
             summary: "Update Data Source Cost"
             description: |
                 Update a datasource cost contract
@@ -479,7 +481,7 @@ paths:
                     type: string
                 description: reference ID
             tags:
-                - Data Source Endpoints  
+                - Data Source Cost Endpoints  
             summary: "Delete Data Source Cost"
             description: |
                 Delete a datasource cost contract
@@ -1019,6 +1021,13 @@ components:
                   $ref: '#/components/schemas/applicable_iatas'
               comment:
                   $ref: '#/components/schemas/comment'
+              excluded_classes:
+                  $ref: '#/components/schemas/excluded_classes'
+              excluded_countries:
+                  $ref: '#/components/schemas/excluded_countries'
+              excluded_destination_iatas:
+                  $ref: '#/components/schemas/excluded_destination_iatas'
+                  
       UpdateGDSIncentiveRequest:
           title: Update GDS Incentive Request
           type: object
