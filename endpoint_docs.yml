@@ -5,10 +5,14 @@ info:
   title: MCaaS Documentation
   description: |
     # Introduction
-    Trip Ninja uses a REST API with requests and responses in JSON format. For development and testing, the pre-production url
-    is to be used. Once ready for live use, access to the production url will be provided. <br  />
+    This is a user interface for online travel agencies (OTAs) to add contract details they have with
+    Airline, global distribution systems (GDS), etc into SmartMarkup. The purpose of SmartMarkup is to
+    identify the right markup so agencies can maximize their profits by managing sales and margins.<br/>
 
-    Pre-Production URL: TODO
+    Trip Ninja uses a REST API with requests and responses in JSON format. For development and testing,
+    the pre-production url is to be used. Once ready for live use, access to the production url will be provided. <br/>
+
+    Pre-Production URL: to provide later
 
     For security, Trip Ninja’s servers are only accessible from whitelisted IPs. Please contact your account manager to whitelist IPs you
     will be using.
@@ -18,503 +22,1123 @@ info:
     authorization headers. See the python example below on how this is done. In the example, the payload and API endpoint url are not
     shown.
 
-    Header Example:
+    Python Example:
 
     <pre>
-        Content-Type: application/json
-        Authorization: Basic base64_password
+    import base64
+    auth = base64.b64encode("USERNAME:PASSWORD")
+    headers = {
+        'authorization': "Basic "+ auth,
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
     </pre>
+
+    # Error Codes
+    <table>
+      <tr><td>400-1001</td><td>Invalid Input</td></tr>
+      <tr><td>400-3003</td><td>Contract reference ID not found</td></tr>
+      <tr><td>400-3004</td><td>Already Exist</td></tr>
+    <table>
   x-logo:
     url: 'https://s3.amazonaws.com/tn-api-docs/tripninja_logo_dev-01.png'
     altText: Trip Ninja logo
 
 tags:
-  - name: Markup Endpoints
-    description: <p>Set of markup endpoints to retrieve and update markups for requested itineraries. 
-                    <br>Below is a table of possible error codes that can be returned when hitting the markup(POST) endpoint.</p>
-               <h3>Markup Error Codes</h3>
-                    <table>
-                    <tr><td>400-1002</td><td>cabin_class is not valid. Must be one of E, PE, BC, FC, PFC</td></tr>
-                    <tr><td>400-2001</td><td>Flight dates cannot be in the past</td></tr>
-                    <tr><td>400-2002</td><td>Arrival date must be after departure date</td></tr>
-                    <table>
-  - name: Profile Endpoints
-    description: <p>Set of profile endpoints to allow user to notify evey time a certain action is performed.
-                    For example, allowing users to notify every time a booking has been cancelled. 
-                    <br>Below is a table of possible error codes that can be returned when hitting the profile endpoints.</p>
-                <table>
-                <h3>Profile Error Codes</h3>
-                <tr><td>400-3001</td><td>itinerary_reference does not exist</td></tr>
-                <tr><td>400-3002</td><td>trip_id does not exist</td></tr>
-                <table>
+    - name: Airline Incentives Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Airline Incentive records.
+    - name: Data Source Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Data Source records.
+    - name: Attachment Revenue Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Attachment Revenue records.
+    - name: Metasearch Cost Endpoints
+      description: The endpoints for creating, reading, updating, and deleting Metasearch Cost records.
 
 servers:
   - url: "Endpoint: "
     description: ""
 
 paths:
-    /markup/:
+#    /iata/:
+#        post:
+#            summary: "Add IATA Registry Number"
+#            description: |
+#                Add IATA
+#            operationId: AddIATA
+#            requestBody:
+#                content:
+#                    application/json:
+#                        schema:
+#                            $ref: '#/components/schemas/AddIATARequest'
+#            responses:
+#                200:
+#                    description: Success
+#                    content:
+#                        application/json:
+#                            schema:
+#                                $ref: '#/components/schemas/BasicSuccessful'
+#                400:
+#                    description: Invalid input
+#                    content:
+#                        application/json:
+#                            schema:
+#                                $ref: '#/components/schemas/CreateRecordErrorCodes'
+
+    /incentive/airline/:
+        get:
+            tags:
+                - Airline Incentives Endpoints
+            summary: "List Airline Incentives"
+            description: |
+                Get list of airline incentive contracts
+            operationId: GetAirlineIncentives
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetAirlineIncentiveResponse'
         post:
-            tags: 
-                - Markup Endpoints
-            summary: "Markup" 
+            tags:
+                - Airline Incentives Endpoints
+            summary: "Create Airline Incentive"
             description: |
-                Send an array of itineraries and we will return an array of id and markup pairs corresponding to each itinerary.
-            operationId: Markup
+                Create an airline incentive contract
+            operationId: CreateAirlineIncentive
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/MarkupPostRequest'
+                            $ref: '#/components/schemas/CreateAirlineIncentiveRequest'
             responses:
                 200:
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/MarkupPostResponse'
+                                $ref: '#/components/schemas/CreateRecordResponse'
                 400:
                     description: Invalid input
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/MarkupOverrideErrorCodes'
-        patch:
-            tags: 
-                - Markup Endpoints
-            summary: "Markup Override"
-            description: |
-                This endpoint allows users to override the markup provided before.
-                <table>
-                <h3>Markup Override Error Codes</h3>
-                <tr><td>400-3001</td><td>itinerary_reference does not exist</td></tr>
-                <tr><td>400-3002</td><td>trip_id does not exist</td></tr>
-                <table>
-            operationId: MarkupOverride
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/MarkupOverrideRequest'
-            responses:
-                200:
-                    description: Success
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/MarkupOverrideResponse'
-                400:
-                    description: Invalid input
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/MarkupOverrideErrorCodes'
+                                $ref: '#/components/schemas/CreateRecordErrorCodes'
 
-    /profile/price/:
+    /incentive/airline/{contract_reference}/:
         patch:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
             tags:
-                - Profile Endpoints
-            summary: "Pricing Profile"
+                - Airline Incentives Endpoints
+            summary: "Update Airline Incentive"
             description: |
-                This endpoint allows users to notify every time a price confirmation has been made.
-            operationId: PricingProfile
+                Update an airline incentive contract
+            operationId: UpdateAirlineIncentive
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ProfileRequest'
+                            $ref: '#/components/schemas/UpdateAirlineIncentiveRequest'
             responses:
                 200:
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProfileResponse'
+                                $ref: '#/components/schemas/BasicSuccessful'
                 400:
                     description: Invalid input
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProfileErrorCodes'
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+        delete:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Airline Incentives Endpoints
+            summary: "Delete Airline Incentive"
+            description: |
+                Delete an airline incentive contract
+            operationId: DeleteAirlineIncentive
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
 
-    /profile/book/:
-        patch:
-            tags:
-                - Profile Endpoints
-            summary: "Booking Profile"
-            description: |
-                This endpoint allows users to notify every time a trip has been booked.
-            operationId: BookingProfile
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ProfileRequest'
-            responses:
-                200:
-                    description: Success
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ProfileResponse'
-                400:
-                    description: Invalid input
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ProfileErrorCodes'
-    /profile/cancel/:
-        patch:
-            tags:
-                - Profile Endpoints
-            summary: "Booking Cancellation Profile"
-            description: |
-                This endpoint allows users to notify every time a booking has been cancelled.
-            operationId: BookingCancellationProfile
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ProfileRequest'
-            responses:
-                200:
-                    description: Success
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ProfileResponse'
-                400:
-                    description: Invalid input
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ProfileErrorCodes'
 
-    /profile/ticket/:
-        patch:
+    /incentive/datasource/:
+        get:
             tags:
-                - Profile Endpoints
-            summary: "Ticketing Profile"
+                - Data Source Endpoints
+            summary: "List Data Source Incentives"
             description: |
-                This endpoint allows users to notify every time a trip has been ticketed.
-            operationId: TicketingProfile
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ProfileRequest'
+                Get list of incentive contracts for GDS and other datasources
+            operationId: GetGDSIncentive
             responses:
                 200:
                     description: Success
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProfileResponse'
+                                $ref: '#/components/schemas/GetGDSIncentiveResponse'
+        post:
+            tags:
+                - Data Source Endpoints
+            summary: "Create Data Source Incentive"
+            description: |
+                Create an incentives contract for a GDS or any other datasource
+            operationId: CreateGDSIncentive
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateGDSIncentiveRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordResponse'
                 400:
                     description: Invalid input
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ProfileErrorCodes'
+                                $ref: '#/components/schemas/CreateRecordErrorCodes'
+
+    /incentive/datasource/{contract_reference}/:
+        patch:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Data Source Endpoints
+            summary: "Update Data Source Incentive"
+            description: |
+                Update a Data Source incentives contract. 
+            operationId: UpdateGDSIncentive
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateGDSIncentiveRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+        delete:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Data Source Endpoints
+            summary: "Delete Data Source Incentive"
+            description: |
+                Delete a Data Source incentives contract. 
+            operationId: DeleteGDSIncentive
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+
+    /revenue/attachment/:
+        get:
+            tags:
+                - Attachment Revenue Endpoints   
+            summary: "List Attachment Revenues"
+            description: |
+                Get list of attachment revenues
+            operationId: GetAttachmentRevenue
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/GetAttachmentRevenueRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetAttachmentRevenueResponse'
+        post:
+            tags:
+                - Attachment Revenue Endpoints   
+            summary: "Create Attachment Revenue"
+            description: |
+                Create a attachment revenue
+            operationId: CreateAttachmentRevenue
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAttachmentRevenueRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordErrorCodes'
+    
+    /revenue/attachment/{contract_reference}/:
+        patch:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Attachment Revenue Endpoints   
+            summary: "Update Attachment Revenue"
+            description: |
+                Update a attachment revenue
+            operationId: UpdateAttachmentRevenue
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAttachmentRevenueRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+        delete:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Attachment Revenue Endpoints   
+            summary: "Delete Attachment Revenue"
+            description: |
+                Delete a attachment revenue
+            operationId: DeleteAttachmentRevenue
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+
+
+    /cost/datasource/:
+        get:
+            tags:
+                - Data Source Endpoints     
+            summary: "List Data Source Costs"
+            description: |
+                list cost contracts for GDS and other data sources
+            operationId: GetDataSourceCost
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetDataSourceCostResponse'
+        post:
+            tags:
+                - Data Source Endpoints  
+            summary: "Create Data Source Cost"
+            description: |
+                Create a cost contract for GDS or any other datasource
+            operationId: CreateDataSourceCost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateDataSourceCostRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordErrorCodes'
+
+    /cost/datasource/{contract_reference}/:
+        patch:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Data Source Endpoints  
+            summary: "Update Data Source Cost"
+            description: |
+                Update a datasource cost contract
+            operationId: UpdateDataSourceCost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDataSourceCostRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+        delete:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Data Source Endpoints  
+            summary: "Delete Data Source Cost"
+            description: |
+                Delete a datasource cost contract
+            operationId: DeleteDataSourceCost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteRecordRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+
+    /cost/metasearch/:
+        get:
+            tags:
+                - Metasearch Cost Endpoints
+            summary: "List Metasearch Costs"
+            description: |
+                Get list of metasearch cost contracts
+            operationId: GetMetasearchCost
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetMetasearchCostResponse'
+        post:
+            tags:
+                - Metasearch Cost Endpoints
+            summary: "Create Metasearch Cost"
+            description: |
+                Create a metasearch cost contract
+            operationId: CreateMetasearchCost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateMetasearchCostRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordResponse'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateRecordErrorCodes'
+
+    /cost/metasearch/{contract_reference}/:
+        patch:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Metasearch Cost Endpoints
+            summary: "Update Metasearch Cost"
+            description: |
+                Update a metasearch cost contract
+            operationId: UpdateMetasearchCost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateMetasearchCostRequest'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+        delete:
+            parameters:
+              - in: path
+                name: contract_reference
+                required: true
+                schema:
+                    type: string
+                description: reference ID
+            tags:
+                - Metasearch Cost Endpoints
+            summary: "Delete Metasearch Cost"
+            description: |
+                Delete a metasearch cost contract <br>
+            operationId: Delete Metasearch Cost'
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BasicSuccessful'
+                400:
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateDeleteErrorCodes'
+
 
 
 components:
   schemas:
-      MarkupPostRequest:
-          title: MarkupPostRequest
-          type: object
-          required:
-              - currency
-              - source
-              - country_code
-              - passengers
-              - itineraries
-              - type(new)
-          properties:
-              currency:
-                  type: string
-                  description: "Currency that itineraries are priced in"
-                  example: "USD"
-              source:
-                  type: string
-                  description: "Metasearch source or on-site search source."
-                  example: "skyscanner"
-              country_code:
-                  type: string
-                  description: "Country code of search site"
-                  example: "US"
-              passengers:
-                  type: array
-                  description: "Number of each passenger type. No need to pass types you aren't using."
-                  example: [{"type":"ADT","count":3},{"type":"CHD","count":1},]
-                  items:
-                      type: object
-                      required:
-                          - type
-                          - count
-                      properties:
-                          type:
-                              type: string
-                              description: "Passenger Type"
-                              example: "ADT"
-                          count:
-                              type: int
-                              description: "number of passenger of type"
-                              example: 2
-              os:
-                  type: string
-                  required: false
-                  description: "Operating system of user. Desktop/mobile/android/iOS."
-                  example: "iOS"
-              itineraries:
-                  description: "Array of itineraries."
-                  required: true
-                  type: array
-                  items:
-                      type: object
-                      required:
-                          - reference
-                          - flights
-                          - base_price
-                          - taxes
-                          - fees
-                          - price_before_markup
-                          - fare_type
-                          - gds
-                          - cabin
-                          - operating_airline
-                      properties:
-                          reference:
-                              type: integer
-                              description: "Itinerary reference"
-                              example: 1
-                          base_price:
-                              type: float
-                              description: "Base price of flights (taxes and fees not included)."
-                              example: 260.43
-                          taxes:
-                              type: float
-                              description: "Taxes on flight."
-                              example: 28.50
-                          fees:
-                              type: float
-                              description: "Fees on flight."
-                              example: 10.40
-                          price_before_markup:
-                              type: float
-                              description: "Total price of flight (base_price, taxes and fees included)."
-                              example: 299.33
-                          gds:
-                              type: string
-                              description: "GDS source of the flight."
-                              example: "travelport"
-                          cabin:
-                              type: string
-                              enum: [E, PE, BC, FC, PFC]
-                              description: "Cabin class for the itinerary."
-                              example: E
-                          operating_airline:
-                              type: string
-                              description: "Airline operating this itinerary."
-                              example: "AC"
-                          flights:
-                              description: "Array of flights that make up an itinerary."
-                              required: true
-                              type: array
-                              items:
-                                  type: object
-                                  required:
-                                      - origin
-                                      - destination
-                                      - departure_date
-                                      - arrival_date
-                                      - cabin
-                                      - carrier
-                                      - flight_number
-                                      - booking_code
-                                  properties:
-                                      origin:
-                                          type: string
-                                          minLength: 3
-                                          maxLength: 3
-                                          description: "IATA code of origin location."
-                                          example: "JFK"
-                                      destination:
-                                          type: string
-                                          minLength: 3
-                                          maxLength: 3
-                                          description: "IATA code of destination location."
-                                          example: "LGW"
-                                      departure_date:
-                                          type: string
-                                          format: date-time
-                                          description: "Departure date and time with timezone."
-                                          example: "2019-11-05T07:00:00.000-08:00"
-                                      arrival_date:
-                                          type: string
-                                          format: date-time
-                                          description: "Arrival date and time with timezone."
-                                          example: "2019-11-08T07:00:00.000-08:00"
-                                      cabin:
-                                          type: string
-                                          description: "Cabin class code of flight."
-                                          example: "E"
-                                      carrier:
-                                          type: string
-                                          minLength: 2
-                                          maxLength: 2
-                                          description: "Airline carrier of the flight."
-                                          example: "AC"
-                                      flight_number:
-                                          type: integer
-                                          description: "Flight number."
-                                          example: 530
-                                      booking_code:
-                                          type: string
-                                          description: "Booking code of flight."
-                                          example: "X"
+      applicable_iatas:
+          type: array
+          description: "IATA Registry Number(s) or officeIDs contracts are divided by"
+          items:
+              type: string
+              description: IATA
+              example: 2G3C
+      comment:
+          type: string
+          description: "Anything that was not properly covered for this agreement"
+          example: some information
+      contract_start_date:
+          type: string
+          format: date
+          description: "Date contract starts"
+          example: "2019-01-01"
+      contract_end_date:
+          type: string
+          format: date
+          description: "Date contract ends"
+          example: "2019-12-31"
+      currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          description: "Currency"
+          example: "USD"
+      contract_reference:
+          type: string
+          description: "reference ID"
+          example: "BA83762349"
+      applicable_airlines:
+          type: array
+          example: ["BA", "UA"]
+          items:
+              type: string
+              minLength: 2
+              maxLength: 2
+              description: "Airline that contract applies to"
+              example: "BA"
+      segment_fees:
+          type: number
+          minimum: 1
+          description: "Segment fee Per segment flown"
+          example: 10
+      model:
+          type: string
+          enum: [FLOWN, BOOKED]
+          description: "Flight status this applies to. "
+          example: FLOWN
+      target:
+          type: number
+          minimum: 1
+          description: "Target to start earning incentives"
+          example: 10000
+      target_calculation_based_on:
+          type: string
+          enum: [TTV_TAX, TTV_PRE_TAX]
+          description: "How target should be calculated"
+          example: TTV_PRE_TAX
+      incentive_model:
+          type: string
+          enum: [TTV_PERCENTAGE, PER_BOOKED_SEGMENT]
+          description: "Incentive data type"
+          example: TTV_PERCENTAGE
+      incentive_amount:
+          type: number
+          minimum: 1
+          description: "Amount of the incentive is either a percentage or a per booked segment fee."
+          example: 3
+      region:
+          type: string
+          description: "region could be City IATA code, Province, Country, or Global"
+          example: "Nova Scotia"
+      revenue_amount:
+          type: number
+          minimum: 1
+          description: "Revenue Per model"
+          example: 10
+      office_id:
+          type: string
+          description: "Office ID"
+      cost_amount:
+          type: number
+          minimum: 1
+          description: "Cost Per model"
+          example: 10
+      look_to_book:
+          type: number
+          minimum: 1
+          description: "Look to book limit(__:1)"
+          example: 3000
+      metasearch_cost_model:
+          type: string
+          enum: [ACQUISITION, CLICK]
+          description: "Cost Model"
+          example: CLICK
+      source_cost_model:
+          type: string
+          enum: [SEGMENT, BOOKING, PASSENGER, FLAT_FEE, LOOK_TO_BOOK]
+          description: "Cost Model"
+          example: LOOK_TO_BOOK
+      excluded_classes:
+          type: array
+          example: [E, FC]
+          items:
+              type: string
+              enum: [E, PE, BC, FC, PFC]
+              description: "List of flight classes to exclude."
+              example: E
+      excluded_countries:
+          type: array
+          example: ["Australia", "Germany"]
+          items:
+              type: string
+              description: "Country Name"
+              example: "Australia"
+      excluded_destination_iatas:
+          type: array
+          example: ["SFO", "LON"]
+          items:
+              type: string
+              minLength: 3
+              maxLength: 3
+              description: "Destination IATAs where this incentive contract does not apply."
+              example: "MEL"
 
-      MarkupPostResponse:
+      BasicSuccessful:
           title: Response
           type: object
           properties:
-              trip_id:
+              status:
                   type: string
-                  description: Unique ID for the trip.
-                  example: "6be6e72c60102bd489ac46434d4ac6c11e047ee8"
-              itineraries:
+                  description: message
+                  example: successful
+
+      BasicAirlineIncentive:
+          type: object
+          properties:
+              airline:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                  description: "Airline code this incentive contract applies to"
+                  example: "BA"
+              contract_applies_to:
+                  $ref: '#/components/schemas/model'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              target:
+                  $ref: '#/components/schemas/target'
+              target_calculation_based_on:
+                  $ref: '#/components/schemas/target_calculation_based_on'
+              incentive_model:
+                  $ref: '#/components/schemas/incentive_model'
+              incentive_amount:
+                  $ref: '#/components/schemas/incentive_amount'
+              excluded_classes:
+                  $ref: '#/components/schemas/excluded_classes'
+              excluded_countries:
+                  $ref: '#/components/schemas/excluded_countries'
+              excluded_destination_iatas:
+                  $ref: '#/components/schemas/excluded_destination_iatas'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      GetAirlineIncentiveResponse:
+          type: array
+          items:
+              $ref: '#/components/schemas/BasicAirlineIncentive'
+
+      CreateAirlineIncentiveRequest:
+          allOf:
+              - $ref: '#/components/schemas/BasicAirlineIncentive'
+              - required:
+                  - airline
+                  - contract_applies_to
+                  - contract_start_date
+                  - contract_end_date
+                  - currency
+                  - target
+                  - target_calculation_based_on
+                  - incentive_amount
+                  - incentive_model
+                  - applicable_iatas
+
+      BasicGDSIncentive:
+          type: object
+          properties:
+              datasource:
+                  type: string
+                  description: "GDS or any other GDS that contract is for"
+                  example: "Sabre"
+              applicable_airlines:
+                  $ref: '#/components/schemas/applicable_airlines'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              segment_fees:
+                  $ref: '#/components/schemas/segment_fees'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      GetGDSIncentiveResponse:
+          type: array
+          items:
+              $ref: '#/components/schemas/BasicAirlineIncentive'
+
+      CreateGDSIncentiveRequest:
+          allOf:
+              - $ref: '#/components/schemas/BasicGDSIncentive'
+              - required:
+                    - datasource
+                    - applicable_airlines
+                    - segment_fees
+                    - currency
+                    - contract_start_date
+                    - contract_end_date
+                    - applicable_iatas
+
+
+      BasicAttachmentRevenue:
+          type: object
+          properties:
+              type_of_attachment:
+                  type: string
+                  description: "Type of attachment which revenue applies to"
+                  example: "Hotel"
+              region:
+                  $ref: '#/components/schemas/region'
+              model:
+                  $ref: '#/components/schemas/model'
+              amount:
+                  $ref: '#/components/schemas/revenue_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+
+      GetAttachmentRevenueRequest:
+         type: object
+         properties:
+            office_id:
+                $ref: '#/components/schemas/office_id'
+
+
+      GetAttachmentRevenueResponse:
+          type: array
+          items:
+              $ref: '#/components/schemas/BasicAirlineIncentive'
+
+      CreateAttachmentRevenueRequest:
+          allOf:
+              - $ref: '#/components/schemas/BasicAttachmentRevenue'
+              - required:
+                    - type_of_attachment
+                    - region
+                    - model
+                    - amount
+                    - currency
+                    - applicable_iatas
+
+      BasicDataSourceCost:
+          title: Create Source Cost Request
+          type: object
+          properties:
+              data_source:
+                  type: string
+                  description: "Data Source which cost applies to"
+                  example: "Mystifly"
+              model:
+                  $ref: '#/components/schemas/source_cost_model'
+              look_to_book:
+                  $ref: '#/components/schemas/look_to_book'
+              amount:
+                  $ref: '#/components/schemas/cost_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      GetDataSourceCostResponse:
+          type: array
+          items:
+              $ref: '#/components/schemas/BasicAirlineIncentive'
+
+      CreateDataSourceCostRequest:
+          allOf:
+              - $ref: '#/components/schemas/BasicDataSourceCost'
+              - required:
+                    - data_source
+                    - model
+                    - amount
+                    - currency
+                    - contract_start_date
+                    - contract_end_date
+                    - applicable_iatas
+
+      BasicMetasearchCost:
+          type: object
+          properties:
+              metasearch:
+                  type: string
+                  description: "Metasearch which cost applies to"
+                  example: "SkyScanner"
+              model:
+                  $ref: '#/components/schemas/metasearch_cost_model'
+              amount:
+                  $ref: '#/components/schemas/cost_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      GetMetasearchCostResponse:
+          type: array
+          items:
+              $ref: '#/components/schemas/BasicAirlineIncentive'
+
+      CreateMetasearchCostRequest:
+          allOf:
+              - $ref: '#/components/schemas/BasicMetasearchCost'
+              - required:
+                    - metasearch
+                    - model
+                    - amount
+                    - currency
+                    - contract_start_date
+                    - contract_end_date
+                    - applicable_iatas
+
+      CreateRecordResponse:
+          title: Response
+          type: object
+          properties:
+              contract_reference:
+                  $ref: '#/components/schemas/contract_reference'
+      CreateRecordErrorCodes:
+          title: Error Codes
+          type: object
+          properties:
+              status:
+                  type: string
+                  description: status code
+                  example: 400-3004
+              errors:
                   type: array
-                  description: Contains JSON objects of markup and itinerary ID's.
+                  description: List of errors
                   items:
                       type: object
-                      required:
-                          - reference
-                          - markup
                       properties:
-                          reference:
-                              type: integer
-                              description: "Itinerary Reference"
-                              example: 1
-                          markup:
-                              type: float
-                              description: "Markup amount for itinerary."
-                              example: 5.43
+                          description:
+                              type: string
+                              description: error description
+                              example: Already Exist
 
-      ProfileRequest:
-        title: Request
-        type: object
-        required:
-            - trip_id
-            - itinerary_reference
-        properties:
-            trip_id:
-                type: string
-                description: This is a unique identifier for the trip which is returned in markup(post) call.
-                example: 12387654283
-            itinerary_reference:
-                type: integer
-                description: |
-                    This is the itinerary identifier which price confirm is performed, and is returned on the
-                    markup(post) call at the itinerary level.
-                example: 1
-      BookingCancellationProfileRequest:
-        title: Request
-        type: object
-        required:
-            - trip_id
-            - itinerary_reference
-            - canceled
-        properties:
-            trip_id:
-                type: string
-                description: This is a unique identifier for the trip which is returned in markup(post) call.
-                example: 12387654283
-            itinerary_reference:
-                type: integer
-                description: |
-                    This is the itinerary identifier which price confirm is performed, and is returned on the
-                    markup(post) call at the itinerary level.
-                example: 1
-            canceled:
-                type: boolean
-                description: Determin if the booking was canceled
-                example: true
-      ProfileResponse:
-        title: Response
-        type: object
-        properties:
-            status:
-                type: string
-                description: status code
-                example: 200
+      UpdateAirlineIncentiveRequest:
+          title: UpdateAirlineIncentiveRequest
+          type: object
+          required:
+              - contract_reference
+          properties:
+              contract_applies_to:
+                  $ref: '#/components/schemas/model'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              currency:
+                  allOf:
+                      - $ref: '#/components/schemas/currency'
+                      - description: "The currency of the incentive"
+              target:
+                  $ref: '#/components/schemas/target'
+              target_calculation_based_on:
+                  $ref: '#/components/schemas/target_calculation_based_on'
+              incentive_model:
+                  $ref: '#/components/schemas/incentive_model'
+              incentive_amount:
+                  $ref: '#/components/schemas/incentive_amount'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+      UpdateGDSIncentiveRequest:
+          title: Update GDS Incentive Request
+          type: object
+          required:
+              - contract_reference
+          properties:
+              applicable_airlines:
+                  $ref: '#/components/schemas/applicable_airlines'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              segment_fees:
+                  $ref: '#/components/schemas/segment_fees'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
 
-      ProfileErrorCodes:
-        title: Error Codes
-        type: object
-        properties:
-            status:
-                type: string
-                description: status code
-                example: 400-3001
-            errors:
-                type: array
-                description: List of errors
-                items:
-                    type: object
-                    properties:
-                        description:
-                            type: string
-                            description: error description
-                            example: invalid itinerary ID
-                        more_info:
-                            type: string
-                            description: url to documentation for more information on the requirements
-                            example: mcaas/docs/errors/3001
-      MarkupOverrideRequest:
-        title: Request
-        type: object
-        required:
-            - trip_id
-            - itinerary_reference
-        properties:
-            trip_id:
-                type: string
-                description: This is a unique identifier for the trip which is returned in markup(post) call.
-                example: 12387654283
-            itinerary_reference:
-                type: integer
-                description: |
-                    This is the itinerary identifier which price confirm is performed, and is returned on the
-                    markup(post) call at the itinerary level.
-                example: 1
-      MarkupOverrideResponse:
-        title: Response
-        type: object
-        properties:
-            status:
-                type: string
-                description: status code
-                example: 200
+      UpdateAttachmentRevenueRequest:
+          title: Update Attachment Revenue Request
+          type: object
+          required:
+              - reference
+          properties:
+              reference:
+                  $ref: '#/components/schemas/contract_reference'
+              region:
+                  $ref: '#/components/schemas/region'
+              model:
+                  $ref: '#/components/schemas/model'
+              amount:
+                  $ref: '#/components/schemas/revenue_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
 
-      MarkupOverrideErrorCodes:
-        title: Error Codes
-        type: object
-        properties:
-            status:
-                type: string
-                description: status code
-                example: 400-3001
-            errors:
-                type: array
-                description: List of errors
-                items:
-                    type: object
-                    properties:
-                        description:
-                            type: string
-                            description: error description
-                            example: invalid itinerary ID
-                        more_info:
-                            type: string
-                            description: url to documentation for more information on the requirements
-                            example: mcaas/docs/errors/3001
+      UpdateDataSourceCostRequest:
+          title: Update Source Cost Request
+          type: object
+          required:
+              - contract_reference
+          properties:
+              model:
+                  $ref: '#/components/schemas/source_cost_model'
+              look_to_book:
+                  $ref: '#/components/schemas/look_to_book'
+              amount:
+                  $ref: '#/components/schemas/cost_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      UpdateMetasearchCostRequest:
+          title: Update Meta Search Cost Request
+          type: object
+          required:
+              - contract_reference
+          properties:
+              model:
+                  $ref: '#/components/schemas/metasearch_cost_model'
+              amount:
+                  $ref: '#/components/schemas/cost_amount'
+              currency:
+                  $ref: '#/components/schemas/currency'
+              contract_start_date:
+                  $ref: '#/components/schemas/contract_start_date'
+              contract_end_date:
+                  $ref: '#/components/schemas/contract_end_date'
+              applicable_iatas:
+                  $ref: '#/components/schemas/applicable_iatas'
+              comment:
+                  $ref: '#/components/schemas/comment'
+
+      DeleteRecordRequest:
+          title: Delete Request
+          type: object
+      UpdateDeleteErrorCodes:
+          title: Error Codes
+          type: object
+          properties:
+              status:
+                  type: string
+                  description: status code
+                  example: 400-3003
+              errors:
+                  type: array
+                  description: List of errors
+                  items:
+                      type: object
+                      properties:
+                          description:
+                              type: string
+                              description: error description
+                              example: Contract reference ID not found
+
+      AddIATARequest:
+          title: Request
+          type: object
+          required:
+              - region
+              - iata_code
+          properties:
+              region:
+                  type: string
+                  description: "Region Name"
+                  example: "Australia"
+              iata_code:
+                  type: string
+                  description: "Region Code"
+                  example: "2G3C"
